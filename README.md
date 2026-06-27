@@ -1,12 +1,12 @@
-# QAI: How to assess quality with AI
+# QAI: QA with AI
 
 ## Overview
 
-QAI is your guide to AI-powered front-end quality testing for the web.
+QAI is your guide to AI-powered quality assessment.
 
-Testing websites can be expensive in time and money. AI can help, **if you use it skilfully**.
+AI can succeed in assessing quality, but only with expert specialized tools. QAI shows you how to equip today’s large language models (LLMs) with the tools they need to do a first-class job.
 
-QAI will show you how to equip today’s large language models (LLMs) with the tools they need to do a first-class job evaluating websites.
+QAI guides you with a specific practical example: assessing web pages for front-end quality (accessibility, usability, and standards conformance).
 
 ## Current status
 
