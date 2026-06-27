@@ -1,6 +1,6 @@
-# QAI: requirements
+# QAI: architecture
 
-## Functional requirements
+## Overview
 
 The first useful version of QAI should explain and show a literate but nontechnical user how to connect LLMs to tools:
 
