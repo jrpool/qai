@@ -6,7 +6,7 @@ QAI addresses a deficit in the capabilities of large language models (LLMs). The
 
 ## Intended users
 
-LLMs are democratizing access to knowledge by using natural language to communicate with users. If you can read and write and you want technical knowledge from an LLM, you are an intended user of QAI.
+If you can read and write and you want technical knowledge from an LLM, you are an intended user of QAI.
 
 ## Goal
 
