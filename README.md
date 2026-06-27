@@ -1,12 +1,12 @@
-# QAI: QA with AI
+# QAI: Getting quality answers from AI
 
 ## Overview
 
-QAI is your guide to AI-powered quality assessment.
+QAI is your guide to helping AI give you high-quality answers to technical questions.
 
-AI can succeed in assessing quality, but only with expert specialized tools. QAI shows you how to equip today’s large language models (LLMs) with the tools they need to do a first-class job.
+Today’s large language models (LLMs) need your help in getting access to expert specialized tools. Without that, LLMs give the best answers they can, but the answers are typically inferior. QAI shows you how to equip LLMs with the tools they need.
 
-QAI guides you with a specific practical example: assessing web pages for front-end quality (accessibility, usability, and standards conformance).
+QAI guides you with a specific practical example. You can apply the same techniques to any technical domain.
 
 ## Current status
 

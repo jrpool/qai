@@ -8,7 +8,7 @@ QAI addresses a deficit in the capabilities of large language models (LLMs). The
 
 LLMs are democratizing access to knowledge by using natural language to communicate with users. If you can read and write and you want technical knowledge from an LLM, you are an intended user of QAI.
 
-## Goals
+## Goal
 
 After you complete QAI, you should be able to give any widely used LLM on any widely used AI platform access to advanced tools.
 
@@ -21,8 +21,8 @@ The author of QAI is the maintainer of a set of tools for LLMs. Early testing re
 The initial scope of QAI is limited in these ways:
 
 - Target platforms: QAI initially will show you how to connect LLMs to tools on a few AI platforms.
-- Methods: QAI initially will show you how to connect LLMs to tools by means of one method.
-- Tutorial format: QAI initially will be a static document, with only text and images, but no video and no interaction with you.
-- Domain: QAI will initially select a single example topic: the evaluation of the front-end quality (accessibility, usability, and standards conformity) of web pages.
+- Methods: QAI initially will show you one method for connecting LLMs to tools.
+- Tutorial format: QAI initially will be static, with only text and images, but no video and no interaction with you.
+- Domain: QAI will initially select a single example topic.
 
 A limited initial scope will permit rapid prototyping, so you can try QAI out and provide comments and suggestions for improvement.
