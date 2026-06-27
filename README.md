@@ -1,4 +1,4 @@
-# QAI: Getting quality answers from AI
+# QAI: Get quality answers from AI
 
 ## Overview
 
