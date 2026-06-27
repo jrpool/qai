@@ -20,9 +20,9 @@ The author of QAI is the maintainer of a set of tools for LLMs. Early testing re
 
 The initial scope of QAI is limited in these ways:
 
-- Target platforms: QAI initially will show you how to connect LLMs to tools on a few AI platforms.
-- Methods: QAI initially will show you one method for connecting LLMs to tools.
-- Tutorial format: QAI initially will be static, with only text and images, but no video and no interaction with you.
-- Domain: QAI will initially select a single example topic.
+- Target platforms: QAI initially will show you how to connect LLMs to tools on **a few AI platforms**.
+- Methods: QAI initially will show you **one method** for connecting LLMs to tools.
+- Tutorial format: QAI initially will be **static**, with only text and images, but no video and no interaction with you.
+- Domain: QAI will initially select a **single technical topic** as an example.
 
-A limited initial scope will permit rapid prototyping, so you can try QAI out and provide comments and suggestions for improvement.
+A limited initial scope will permit rapid prototyping, so you can try QAI out soon and provide comments and suggestions for improvement.
