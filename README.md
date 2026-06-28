@@ -20,4 +20,4 @@ QAI is currently being planned. The current planning state is described in the d
 
 ## Setup notes
 
-It is anticipated that you will not need any setup and will be able to visit a website with a browser to start using QAI. Instructions for doing that will appear here when the project is ready.
+It is anticipated that you will not need any setup and will be able to visit a website with a browser to start using QAI. Instructions for doing that will appear here when the guide is ready to use.
