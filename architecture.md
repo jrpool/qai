@@ -47,10 +47,12 @@ Architectural decisions will be made incrementally and may therefore change. The
 ## Data flow
 
 - External requests: Flow from browser to proxy server to Node.js server.
-- External responses: Fow from Node.js server to proxy server to browser.
-- Internal link activations: They are external requests and responses (see above).
-- Form submissions: They are external requests and responses (see above) with further flow to the alert service and the comments file.
+- External responses: Flow from Node.js server to proxy server to browser.
+- Internal link activations: Identical to external requests and responses (see above).
+- Form submission requests: Identical to external requests.
+- Form submission responses: Flow from Node.js server to observability module to (1) alert service, (2) comments file, (3) logs, and thereafter (4) Node.js server to proxy server to browser.
 - Configuration retrieval: Flow from Node.js server to environment module to environment file to environment module to Node.js server.
+- Error handling: Flow from the Node.js server to observability module to (1) logs, (2) alert service, and thereafter (3) Node.js server to proxy server to browser.
 
 ## Initial architecture summary
 
