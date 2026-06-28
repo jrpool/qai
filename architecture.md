@@ -2,53 +2,21 @@
 
 ## Overview
 
-The first useful version of QAI should explain and show a literate but nontechnical user how to connect LLMs to tools:
+The first increment of QAI will be organized as simply as possible, given its requirements.
 
-- on the `Claude Desktop`, `claude.ai`, and `Perplexity Pro` AI platforms
-- with one method: registration of a streaming-HTTP MCP server requiring no authentication as a custom connector
-- statically, with only text and images, but no video and no user interaction
-- with the tools provided by the Kilotest MCP server as the example
-- with an opportunity to submit comments, including suggestions for improvement
+Although architectural decisions may change with experience, the main architectural expectations are:
 
-## Data requirements
+- 2-page website, with 1 page for the tutorial and 1 page for the comment form
+- The tutorial page will contain 1 or more links to the comment form without any `target` attribute.
+- A separate stylesheet will contain any non-default styles.
+-
 
-The initial system needs to anticipate future extension by storing rudimentary structured data about user options, namely:
+## Major components
 
-- AI platforms
-- methods
-- tutorial formats
-- Domains
+## Component responsibilities
 
-The initial system needs to capture any user comments and permit the maintainer to:
+## Data flow
 
-- be notified of their arrival
-- delete them when disposed of
+## Initial architecture sketch
 
-Initially, the maintainer assumes responsibility for, optionally, converting user comments into issues in the repository.
-
-## Nonfunctional requirements
-
-The project should begin with:
-
-- a minimalistic architecture
-- few dependencies
-- simplistic styling
-
-The new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study.
-
-The system should conform to all commonly accepted web accessibility standards.
-
-The system should conform to the current HTML5 and CSS3 specifications.
-
-## Scope requirements
-
-The initial system should not perform functions beyond those described above as functional requirements. For example, it should not:
-
-- cover AI platforms other than `Claude Desktop`, `claude.ai`, and `Perplexity Pro`
-- cover methods other than registration of a streaming-HTTP MCP server requiring no authentication as a custom connector
-- include video
-- give options to users
-- include user interaction
-- cover tools other than those provided by the Kilotest MCP server
-- obtain identities or contact information from users
-- require any authentication
+## Open questions

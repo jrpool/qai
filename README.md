@@ -1,4 +1,4 @@
-# QAI: Get quality answers from AI
+# QAI: How to get quality answers from AI
 
 ## Overview
 
@@ -10,7 +10,7 @@ QAI guides you with a specific practical example. You can apply the same techniq
 
 ## Current status
 
-QAI is currently being conceptualized. No design or implementation plans are available yet.
+QAI is currently being planned. The current planning state is described in the documents listed in the next section.
 
 ## Project documents
 
@@ -20,4 +20,4 @@ QAI is currently being conceptualized. No design or implementation plans are ava
 
 ## Setup notes
 
-Instructions for accessing the guide will be added here when completed.
+It is anticipated that you will not need any setup and will be able to visit a website with a browser to start using QAI. Instructions for doing that will appear here when the project is ready.

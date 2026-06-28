@@ -2,7 +2,7 @@
 
 ## Problem
 
-QAI addresses a deficit in the capabilities of large language models (LLMs). They have the potential to answer questions about any technical topic, but they give inferior answers unless they have access to the most powerful specialized tools. Your problem, as a user of LLMs, is to provide that access, so you get superior answers.
+QAI addresses a gap between what large language models (LLMs) **can** do and what they **actually** do if you do not prepare them properly. LLMs have the potential to answer questions about any technical topic, and to do that they can use powerful specialized tools. Your problem, as a user of any LLM, is to ensure that the LLM has access to the tools it needs for the task that you give it. The idea that AI can find any needed tool and put it to use for you is appealing and may someday become true, but it is not true yet.
 
 ## Intended users
 
@@ -18,7 +18,7 @@ The author of QAI is the maintainer of a set of tools for LLMs. Early testing re
 
 ## Initial scope
 
-The initial scope of QAI is limited in these ways:
+QAI is being developed incrementally. Its initial scope is limited in these ways:
 
 - Target platforms: QAI initially will show you how to connect LLMs to tools on **a few AI platforms**.
 - Methods: QAI initially will show you **one method** for connecting LLMs to tools.

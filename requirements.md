@@ -6,7 +6,7 @@ The first useful version of QAI should explain and show a literate but nontechni
 
 - on the `Claude Desktop`, `claude.ai`, and `Perplexity Pro` AI platforms
 - with one method: registration of a streaming-HTTP MCP server requiring no authentication as a custom connector
-- statically, with only text and images, but no video and no user interaction
+- statically, with only text and images
 - with the tools provided by the Kilotest MCP server as the example
 - with an opportunity to submit comments, including suggestions for improvement
 
@@ -17,7 +17,7 @@ The initial system needs to anticipate future extension by storing rudimentary s
 - AI platforms
 - methods
 - tutorial formats
-- Domains
+- domains
 
 The initial system needs to capture any user comments and permit the maintainer to:
 
@@ -32,11 +32,11 @@ The project should begin with:
 
 - a minimalistic architecture
 - few dependencies
-- simplistic styling
+- minimal styling
 
-The new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study.
+The new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study. Development of later versions will be dependent on trials of the first version with realistic users not affiliated with the project and collection of their comments. Therefore, QAI must, from the first version, be visitable on the public Internet.
 
-The system should conform to all commonly accepted web accessibility standards.
+The system should conform to all commonly accepted web accessibility standards and best practices.
 
 The system should conform to the current HTML5 and CSS3 specifications.
 
@@ -47,8 +47,8 @@ The initial system should not perform functions beyond those described above as 
 - cover AI platforms other than `Claude Desktop`, `claude.ai`, and `Perplexity Pro`
 - cover methods other than registration of a streaming-HTTP MCP server requiring no authentication as a custom connector
 - include video
-- give options to users
-- include user interaction
+- offer options to users other than links
+- adapt its content to user behavior, other than link activation
 - cover tools other than those provided by the Kilotest MCP server
 - obtain identities or contact information from users
 - require any authentication
