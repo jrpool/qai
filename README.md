@@ -14,9 +14,9 @@ QAI is currently being planned. The current planning state is described in the d
 
 ## Project documents
 
-- [Project vision](./project-vision.md)
-- [Requirements](./requirements.md)
-- [Architecture](./architecture.md)
+- [Project vision](./docs/project-vision.md)
+- [Requirements](./docs/requirements.md)
+- [Architecture](./docs/architecture.md)
 
 ## Setup notes
 
