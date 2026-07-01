@@ -3,7 +3,7 @@ date: 2026-06-30
 status: accepted
 ---
 
-# Document directory
+# `docs` directory
 
 ## Context and problem
 

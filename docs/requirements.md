@@ -36,7 +36,7 @@ The project should begin with:
 
 The new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study. Development of later versions will be dependent on trials of the first version with realistic users not affiliated with the project and collection of their comments. Therefore, QAI must, from the first version, be visitable on the public Internet.
 
-The system should conform to all commonly accepted web accessibility standards and best practices.
+The system should conform to all commonly accepted web accessibility standards and best practices, as operationalized by Kilotest, and its pages should therefore be issue-free in Kilotest testing.
 
 The system should conform to the current HTML5 and CSS3 specifications.
 
