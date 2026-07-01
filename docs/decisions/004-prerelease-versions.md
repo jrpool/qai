@@ -24,4 +24,4 @@ Infrastructure-first, because:
 
 ### Confirmation
 
-The decision specifies a strategy for the first pre-release versions and leaves open the choice of a component or components for implementation in each prerelease version. When each such tactical decision is made and implemented, it can be confirmed by formal or informal testing, depending on whether a test module has been implemented yet.
+The decision specifies a strategy for the first prerelease versions and leaves open the choice of a component or components for implementation in each prerelease version. When each such tactical decision is made and implemented, it can be confirmed by formal or informal testing, depending on whether a test module has been implemented yet.

@@ -39,6 +39,7 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Storage of comment form: comment page
 - Styling of pages: stylesheet
 - Storage of run-time alternatives: options file
+- Testing: test module and test cases
 
 ## Data flow
 
@@ -59,7 +60,7 @@ The architecture of the first release is an HTML website with a Node.js server h
 
 Architectural decisions will be made incrementally and may therefore change. The architecture of the first release can be summarized as follows:
 
-- Versioning will conform to the [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) specification. The first releases will be development releases, beginning with version 0.1.0.
+- Versioning will conform to the [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) specification. The first releases will be development releases, beginning with version 0.1.0, and versions before that, beginning with 0.0.1, will be prerelease versions.
 - The version strategy will be trunk-based with feature branches named informally to describe their purposes.
 - The origin will be a private GitHub repository.
 - A 2-page HTML5 website will contain 1 static page for the tutorial and 1 static page for the comment form.
@@ -71,6 +72,7 @@ Architectural decisions will be made incrementally and may therefore change. The
 - The maintainer will edit the comments file to remove comments that have been disposed of.
 - Requests, responses, and form processing will be performed by server-side Node.js ECMAScript modules written in TypeScript.
 - The TypeScript, HTML, and CSS files will conform to the [ESLint configuration defined for Kilotest](https://github.com/jrpool/kilotest/blob/main/eslint.config.mjs).
+- The HTML files will declare `en-US` as the document language, use UTF-8 encoding, use distinction-first titles with vertical-bar delimiters, and be responsive to viewport sizes and orientations.
 
 ## Open questions
 
