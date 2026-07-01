@@ -4,13 +4,13 @@
 
 The first increment of QAI will be organized to satisfy its requirements without unnecessary complexity.
 
-The tentative architecture of the first increment is an HTML5 website with a Node.js server handling routing, request handling, form submission, and comment recording. The tutorial is a static page with links to a page containing a comment form. An observability module maintains logs, traces, and metrics and alerts the maintainer when a comment is submitted. The initial deployment relies on an existing domain name, host, and proxy server.
+The tentative architecture of the first increment is an HTML5 website with a Node.js server handling routing, request handling, form submission, and comment recording. The tutorial is a static page with links to a page containing a comment form. An observability module maintains logs, traces, and metrics and alerts the maintainer when a comment is submitted. The initial deployment relies on an existing domain name, host, and proxy server, described in the [`SERVICE.md` file of Kilotest](https://github.com/jrpool/kilotest/blob/main/SERVICE.md).
 
 ## Major components
 
-- Domain registrar: a service that registers and manages the QAI domain name (initially shared)
-- Host: a host on which the website is deployed (initially shared)
-- Proxy server: a reverse proxy that forwards requests to the Node.js server (initially shared)
+- Domain registrar: a service that registers and manages the QAI domain name (initially none, because the existing domain `kilotest.com` provides access to QAI)
+- Host: a host on which the website is deployed (initially the host of `kilotest.com`)
+- Proxy server: a reverse proxy that forwards requests to the Node.js server (initially the proxy server of `kilotest.com`)
 - Node.js server: modules that perform routing, request handling, form submission, and comment recording
 - Tutorial page: an HTML5 page containing the tutorial
 - Comment page: an HTML5 page containing the comment form

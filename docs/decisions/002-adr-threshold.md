@@ -23,6 +23,8 @@ Higher, because:
 - Minor decisions are often understandable with inspection of the codebase.
 - Decisions affecting single points in a codebase are more efficiently explained with adjacent comments that do not require navigation to a separate file.
 
+This decision will cause the count of ADRs to be moderate, making a 3-digit naming prefix practical.
+
 ### Confirmation
 
 The decision requires judgment, so confirmation is not deterministic.
