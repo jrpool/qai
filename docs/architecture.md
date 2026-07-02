@@ -81,9 +81,5 @@ Architectural decisions will be made incrementally and may therefore change. The
 
 ## Open questions
 
-- What dependency should be used for the observability module?
-- What dependency should be used for the alerting module?
-- What logs, traces, and metrics should be collected?
-- What conditions should trigger alerts?
 - In the tutorial, should the content be organized by platform or by step?
 - Should the comment form be presented as an if-needed resource or as an encouraged contribution to the project?
