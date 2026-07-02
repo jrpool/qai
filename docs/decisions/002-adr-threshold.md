@@ -27,4 +27,4 @@ This decision will cause the count of ADRs to be moderate, making a 3-digit nami
 
 ### Confirmation
 
-The decision requires judgment, so confirmation is not deterministic.
+To confirm that the decision is appropriately implemented, ask LLMs and human colleagues to judge whether the ADRs describe all and only the strategic decisions manifested in the codebase.

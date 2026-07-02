@@ -26,4 +26,4 @@ The decision prescribes using the external monitoring service only for host-down
 
 ### Confirmation
 
-To confirm the implementation after the monitoring service is chosen, procured, and configured, one can stop the QAI server and leave it stopped for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.
+To confirm that implementation is correct, stop the QAI server and leave it stopped for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.

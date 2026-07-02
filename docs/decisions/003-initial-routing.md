@@ -25,4 +25,4 @@ Independent, because:
 
 ### Confirmation
 
-The decision can be confirmed by the successful use of QAI when Kilotest is temporarily stopped for testing.
+To confirm that the implementation is correct, stop Kilotest, send a request to QAI, and verify that the expect response is returned.

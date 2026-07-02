@@ -11,17 +11,17 @@ QAI is being developed incrementally. Several incremental versions will be requi
 
 ## Considered options
 
-- Content-first: Include in version 0.0.1 a rudimentary tutorial page and only any other prerequisite components.
-- Infrastructure-first: Create in versions 0.0.1 _et seq._ minimal versions of all nonfunctional components in preparation for the development of the pages in later versions.
+- Content-heavy: Include in version 0.0.1 a simple tutorial page and only such other components that serving the page requires.
+- Infrastructure-heavy: Create in version 0.0.1 a minimal placeholder tutorial page and the minimal working implementations of the other components of the [described architecture](../architecture.md).
 
 ## Decision
 
-Infrastructure-first, because:
+Infrastructure-heavy, because:
 
 - Responsible development, even of minimal functionality, requires the nonfunctional components.
-- If testing of nonfunctional components requires the existence of the pages, placeholder pages can be used without any substantive content.
-- There is no doubt about the feasibility of content development, but there is a risk of infeasibility in the infrastructure, so it is prudent to verify its feasibility before any other development occurs.
+- Completion of each prerelease version requires testing.
+- There is no doubt about the feasibility of content development, but there is a risk of infeasibility in the infrastructure, so it is prudent to verify its feasibility before the tutorial and the comment page are elaborated.
 
 ### Confirmation
 
-The decision specifies a strategy for the first prerelease versions and leaves open the choice of a component or components for implementation in each prerelease version. When each such tactical decision is made and implemented, it can be confirmed by formal or informal testing, depending on whether a test module has been implemented yet.
+The implemented decision can be confirmed to be correct by means of test cases limited to the features that have been implemented.

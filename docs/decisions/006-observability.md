@@ -23,4 +23,4 @@ Minimal, because:
 
 ### Confirmation
 
-To confirm the implementation after the observability and alerting modules are installed and configured, one can temporarily corrupt the QAI request handler to make it return an error response and verify that an alert with the expected content has arrived at the expected destination.
+To confirm that the implementation is correct, launch the application, submit requests to it, and verify that any required logs appear. Then temporarily corrupt the QAI request handler to make it return an error response and verify that an alert with the expected content has arrived at the expected destination.

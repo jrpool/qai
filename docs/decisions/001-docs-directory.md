@@ -20,4 +20,4 @@ Maximal coherence, because it substantially simplifies navigation for people per
 
 ### Confirmation
 
-To confirm the correctness of the implementation, activate the 4 links in the `Project documents` section of `README.md` and verify that they navigate to the corresponding documents.
+To confirm the correctness of the implementation, find all internal links in the codebase and verify that each link to a file that is now in the `docs` directory has the current file location as its destination.
