@@ -30,5 +30,5 @@ To confirm that the implementation is correct:
 
 - Verify that when the QAI server is running no alerts are received.
 - Create a server-down condition by stopping the QAI server but not the proxy server for the polling interval. Verify that an alert reporting a 502-status error response is received.
-- Create a host-down condition by stopping the proxy server for the polling interval. Verify that an alert reporting a connection timeout error is received.
+- Create a host-down condition by stopping the proxy server for the polling interval. Verify that an alert reporting a connection refusal or timeout error is received.
 - Restore normal operation and verify that no more alerts are received.
