@@ -5,3 +5,7 @@
 I am building this project while a student in an AI engineering course. The course requires creating a web application, starting with an MVP, and specifies best practices to be adhered to. The course also encourages liberal use of LLMs for all project work, but no delegation of responsibility to any LLM.
 
 In accord with the above requirements, you should refrain from offering to switch to code mode.
+
+## File inspection
+
+When you are asked to review a file, note that a file creation diff may automatically end with a string that seems to be a trailing newline plus full stop, but the full stop is actually not in the file and should not be complained about.

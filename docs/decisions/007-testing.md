@@ -11,19 +11,25 @@ The architecture provides for a testing module and test cases, but does not spec
 
 ## Considered options
 
-- Protect feature branches: Require the testing before any push of a feature branch to its origin.
-- Protect main: Require the testing before any merge to the main branch.
-- Protect origin: Require the testing before any push of the main branch to its origin.
+Testing can be made a prerequisite for any merge or push to any branch. The options are the local and origin main and feature branches.
+
+Any required testing must take place automatically upon a request to perform the merging or pushing action. The choice of test-triggering mechanisms is a tactical decision.
 
 ## Decision
 
-Protect main, because:
+Require testing only before pushes and merges to the origin main branch, because:
 
-- Merges to the main branch are infrequent, so mandatory testing before them is not burdensome.
-- Test failures before merges to the main branch show that such merges would have been premature.
+- Pushes and merges to the origin main branch are infrequent, so mandatory testing before them is not burdensome.
+- The risk of failure is excessive if the deployed server is permitted to relaunch QAI with the code of an untested main branch.
 - Mandatory testing before pushes to the origin of a feature branch would deter routine pushes that protect the local code from accidental deletion.
-- Testing of any current feature branch is permitted at any time.
+- Mandatory protection of the local main branch would usually result in double testing, because a merge to the local main branch will usually be followed by a push to the origin main branch.
+- The adopted requirement does not interfere with voluntary testing of any local branches at any time.
 
 ### Confirmation
 
-To confirm that the implementation is correct, try to merge a defective feature branch to the main branch and verify that testing is automatically performed and the merge prevented by a test failure.
+To confirm that the implementation is correct, try to:
+
+- push a defective main branch to the origin main branch.
+- merge a defective origin feature branch to the origin main branch.
+
+In each case, verify that testing is automatically performed and the push or merge is prevented by a test failure.
