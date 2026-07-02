@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-The maintainer will want to review some data about the operation of QAI and will want to be alerted to some activities. Decisions are required about what operation data to collect and what activities merit alerts.
+The maintainer will want to review some data about the operation of QAI and will want to be alerted to some activities. Decisions are required about what data to collect and what activities merit alerts.
 
 ## Considered options
 
@@ -23,4 +23,6 @@ Minimal, because:
 
 ### Confirmation
 
-To confirm that the implementation is correct, launch the application, submit requests to it, and verify that any required logs appear. Then temporarily corrupt the QAI request handler to make it return an error response and verify that an alert with the expected content has arrived at the expected destination.
+To confirm that the implementation is correct, launch the application, submit requests to it, and verify that any required logs appear. Then temporarily corrupt the QAI request handler (but not the proxy server) to make QAI return an error response to the client. Verify that an alert from the alerting module with the expected content has arrived at the expected destination.
+
+Which events merit logging, what the contents of alerts should be, and what packages should be chosen as observability and alerting modules are among the decisions classified as “tactical” in [ADR 002](./002-adr-threshold.md). Therefore, those decisions are not described in this ADR or other ADRs.

@@ -56,9 +56,9 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Configuration retrieval: Flow from Node.js server to environment module to environment file to environment module to Node.js server.
 - Error handling: Flow from Node.js server to:
   - observability module to:
-    - logs.
-    - alerting module to maintainer.
-  - Node.js server to proxy server to browser.
+    - logs
+    - alerting module to maintainer
+  - Node.js server to proxy server to browser
 
 ## Initial architecture sketch
 

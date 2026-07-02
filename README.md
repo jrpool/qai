@@ -10,7 +10,7 @@ QAI guides you with a specific practical example. You can apply the same techniq
 
 ## Current status
 
-QAI is currently being planned. The current planning state is described in the documents listed in the next section.
+QAI is currently in prerelease development. The history of strategic architectural decisions is described in files in the `docs/decisions` directory. The current state is described in the documents listed in the next section.
 
 ## Project documents
 

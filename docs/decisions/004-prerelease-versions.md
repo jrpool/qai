@@ -11,7 +11,7 @@ QAI is being developed incrementally. Several incremental versions will be requi
 
 ## Considered options
 
-- Content-heavy: Include in version 0.0.1 a simple tutorial page and only such other components that serving the page requires.
+- Content-heavy: Include in version 0.0.1 a simple tutorial page and only such other components that are required to allow the page to be served.
 - Infrastructure-heavy: Create in version 0.0.1 a minimal placeholder tutorial page and the minimal working implementations of the other components of the [described architecture](../architecture.md).
 
 ## Decision
@@ -19,7 +19,7 @@ QAI is being developed incrementally. Several incremental versions will be requi
 Infrastructure-heavy, because:
 
 - Responsible development, even of minimal functionality, requires the nonfunctional components.
-- Completion of each prerelease version requires testing.
+- Completion of each new functionality, even in the prerelease versions, requires testing, so the testing infrastructure must be in place.
 - There is no doubt about the feasibility of content development, but there is a risk of infeasibility in the infrastructure, so it is prudent to verify its feasibility before the tutorial and the comment page are elaborated.
 
 ### Confirmation

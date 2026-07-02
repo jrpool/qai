@@ -2,7 +2,7 @@
 
 ## Functional requirements
 
-The first useful version of QAI should explain and show a literate but nontechnical user how to connect LLMs to tools:
+The first release of QAI should explain and show a literate but nontechnical user how to connect LLMs to tools:
 
 - on the `Claude Desktop`, `claude.ai`, and `Perplexity Pro` AI platforms
 - with one method: registration of a streaming-HTTP MCP server requiring no authentication as a custom connector
@@ -34,7 +34,7 @@ The project should begin with:
 - few dependencies
 - minimal styling
 
-The new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study. Development of later versions will be dependent on trials of the first version with realistic users not affiliated with the project and collection of their comments. Therefore, QAI must, from the first version, be visitable on the public Internet.
+A new user should be able to use the system by visiting its URL with any current web browser, with no prerequisites, installations, configuration, or prior study. Development of later versions will be dependent on trials of the first version with realistic users not affiliated with the project and collection of their comments. Therefore, QAI must, from the first version, be visitable on the public Internet.
 
 The system should conform to all commonly accepted web accessibility standards and best practices, as operationalized by Kilotest, and its pages should therefore be issue-free in Kilotest testing.
 

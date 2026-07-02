@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-The proxy server forwarding requests to QAI will listen continuously. It supports Kilotest now, but Kilotest has not implemented health monitoring. This is one among what will be several examples of architectural flaws in Kilotest that QAI should not emulate. Health degradation is a serious problem that requires monitoring and alerting. QAI should implement these for itself, since it cannot rely on Kilotest for them. A solution requires an external agent, so that even host-down conditions trigger alerts. No collection of sensitive operational or personal information is anticipated, so using an external agent would not create security or privacy risks.
+The proxy server forwarding requests to QAI will listen continuously. It supports Kilotest now, but Kilotest has not implemented health monitoring. This is an example of the architectural flaws in Kilotest that QAI should not emulate. Health degradation is a serious problem that requires monitoring and alerting. QAI should implement these for itself, since it cannot rely on Kilotest for them. A solution requires an external agent, so that even host-down conditions trigger alerts. No collection of sensitive operational or personal information is anticipated, so using an external agent would not create security or privacy risks.
 
 ## Considered options
 
@@ -26,4 +26,9 @@ The decision prescribes using the external monitoring service only for host-down
 
 ### Confirmation
 
-To confirm that implementation is correct, stop the QAI server and leave it stopped for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.
+To confirm that the implementation is correct:
+
+- Verify that when the QAI server is running no alerts are received.
+- Create a server-down condition by stopping the QAI server but not the proxy server for the polling interval. Verify that an alert reporting a 502-status error response is received.
+- Create a host-down condition by stopping the proxy server for the polling interval. Verify that an alert reporting a connection timeout error is received.
+- Restore normal operation and verify that no more alerts are received.

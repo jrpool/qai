@@ -25,4 +25,4 @@ Independent, because:
 
 ### Confirmation
 
-To confirm that the implementation is correct, stop Kilotest, send a request to QAI, and verify that the expect response is returned.
+To confirm that the implementation is correct, stop Kilotest, send a request to QAI, and verify that the expected response is returned.
