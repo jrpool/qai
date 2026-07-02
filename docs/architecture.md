@@ -23,8 +23,9 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Alerting module: a dependency used for alerts to the maintainer
 - Environment file: a properties file storing environment variables
 - Environment module: a dependency used for retrieval of environment variables
-- Test module: a dependency used for testing
+- Test module: a dependency used for internal testing
 - Test cases: artifacts specifying tests to be performed by the test module
+- Test service: an external service used for front-end quality testing of the deployed application
 
 ## Component responsibilities
 
@@ -41,7 +42,8 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Storage of comment form: comment page
 - Styling of pages: stylesheet
 - Storage of run-time alternatives: options file
-- Testing: test module and test cases
+- Internal testing: test module and test cases
+- Deployed application front-end quality testing: test service
 
 ## Data flow
 
@@ -55,29 +57,34 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Form submission responses: Identical to external responses.
 - Configuration retrieval: Flow from Node.js server to environment module to environment file to environment module to Node.js server.
 - Error handling: Flow from Node.js server to:
+
   - observability module to:
     - logs
     - alerting module to maintainer
   - Node.js server to proxy server to browser
+
+- Deployed application front-end quality testing: Flow from test service to maintainer.
 
 ## Initial architecture sketch
 
 Architectural decisions will be made incrementally and may therefore change. The architecture of the first release can be summarized as follows:
 
 - Versioning will conform to the [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) specification. The first releases will be development releases, beginning with version 0.1.0, and versions before that, beginning with 0.0.1, will be prerelease versions.
-- The version strategy will be trunk-based with feature branches named informally to describe their purposes.
+- The version strategy will be trunk-based with sprint-specific feature branches named according to the specifications of the course in which the project is being developed.
+- Before any push or merge to the origin main branch, the internal testing will be automatically performed and the push or merge will be canceled if any test failures are reported.
 - The origin will be a private GitHub repository.
 - A 2-page HTML5 website will contain 1 static page for the tutorial and 1 static page for the comment form.
 - The tutorial page will contain 1 or more links to the comment form, with no `target` attribute.
 - The comment form will include a text area for a free-form comment and 0 or more inputs allowing the user to classify the comment, but no input seeking user identification or authentication.
 - A separate stylesheet will contain all non-default styles.
 - The alternatives and the choices among them that are reflected in the tutorial content will be stored in a JSON file. However, the tutorial content will be static and not generated dynamically from the data in that file. Decisions on dynamic generation will be made and implemented in later releases.
-- An external monitoring service will periodically poll QAI and send alerts to the maintainer if QAI fails to respond or sends an error response.
+- An external monitoring service will periodically poll QAI and send alerts to the maintainer if QAI fails to respond or sends a server-timeout or connection-refused response.
 - All comments will be handled by the Node.js server. It will record comments in the comments file, acknowledge submission to the browser via the proxy server, and notify the observability module, which will request alerts from the alerting module and add form-submission events to its logs and metrics.
 - The maintainer will edit the comments file to remove comments that have been disposed of.
 - Requests, responses, and form processing will be performed by server-side Node.js ECMAScript modules written in TypeScript.
 - The TypeScript, HTML, and CSS files will conform to the [ESLint configuration defined for Kilotest](https://github.com/jrpool/kilotest/blob/main/eslint.config.mjs).
 - The HTML files will declare `en-US` as the document language, use UTF-8 encoding, use distinction-first titles with vertical-bar delimiters, and be responsive to viewport sizes and orientations.
+- The maintainer will be responsible for obtaining testing of the deployed application by the test service and remediating any defects reported in the test results at appropriate intervals.
 
 ## Open questions
 
