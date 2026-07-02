@@ -63,7 +63,7 @@ The architecture of the first release is an HTML website with a Node.js server h
     - alerting module to maintainer
   - Node.js server to proxy server to browser
 
-- Deployed application front-end quality testing: Flow from test service to maintainer.
+- Deployed application front-end quality testing: Flow from maintainer to test service to maintainer.
 
 ## Initial architecture sketch
 
@@ -78,7 +78,7 @@ Architectural decisions will be made incrementally and may therefore change. The
 - The comment form will include a text area for a free-form comment and 0 or more inputs allowing the user to classify the comment, but no input seeking user identification or authentication.
 - A separate stylesheet will contain all non-default styles.
 - The alternatives and the choices among them that are reflected in the tutorial content will be stored in a JSON file. However, the tutorial content will be static and not generated dynamically from the data in that file. Decisions on dynamic generation will be made and implemented in later releases.
-- An external monitoring service will periodically poll QAI and send alerts to the maintainer if QAI fails to respond or sends a server-timeout or connection-refused response.
+- An external monitoring service will periodically poll QAI and send alerts to the maintainer if QAI times out, fails to respond, or refuses the connection.
 - All comments will be handled by the Node.js server. It will record comments in the comments file, acknowledge submission to the browser via the proxy server, and notify the observability module, which will request alerts from the alerting module and add form-submission events to its logs and metrics.
 - The maintainer will edit the comments file to remove comments that have been disposed of.
 - Requests, responses, and form processing will be performed by server-side Node.js ECMAScript modules written in TypeScript.
