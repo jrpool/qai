@@ -22,9 +22,8 @@ Open/closed agnosticism, because:
 - Major open-source-based services (Uptime Kuma and Upptime) impose complex prerequisites, such as self-hosting or the use of GitHub Actions, Issues, and Pages.
 - Major non-open-source-based services (UptimeRobot and Better Stack) are simple to configure and offer free tiers with far higher limits than QAI could foreseeably exhaust.
 
+The decision prescribes using the external monitoring service only for host-down and server-down conditions. Any errors that leave the server able to trigger its own alerts will be handled internally.
+
 ### Confirmation
 
-To confirm the implementation after the monitoring service is chosen, procured, and configured, one can:
-
-- stop the QAI server and leave it stopped for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.
-- temporarily corrupt the QAI request handler to make it return an error response and leave that corruption in place for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.
+To confirm the implementation after the monitoring service is chosen, procured, and configured, one can stop the QAI server and leave it stopped for the configured monitoring interval, then verify that an alert with the expected content has arrived at the expected destination.
