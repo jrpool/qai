@@ -49,7 +49,8 @@ The architecture of the first release is an HTML website with a Node.js server h
 - External responses: Flow from Node.js server to proxy server to browser.
 - Internal link activations: Identical to external requests and responses (see above).
 - Form submission requests: Identical to external requests.
-- Health monitoring: Frow from monitoring service to proxy server to Node.js server to proxy server to monitoring service to maintainer.
+- Health monitoring: Flow from monitoring service to proxy server to Node.js server to proxy server to monitoring service.
+- Health alerting: Flow from monitoring service to maintainer.
 - Comments: Flow from Node.js server to (1) comments file and (2) observability module to alert service, logs, and metrics.
 - Form submission responses: Identical to external responses.
 - Configuration retrieval: Flow from Node.js server to environment module to environment file to environment module to Node.js server.
@@ -80,10 +81,9 @@ Architectural decisions will be made incrementally and may therefore change. The
 
 ## Open questions
 
-- Do observability packages with built-in alerting exist?
 - What dependency should be used for the observability module?
 - What dependency should be used for the alert service?
-- What traces and metrics should be collected?
+- What logs, traces, and metrics should be collected?
 - What conditions should trigger alerts?
 - In the tutorial, should the content be organized by platform or by step?
 - Should the comment form be presented as an if-needed resource or as an encouraged contribution to the project?
