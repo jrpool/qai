@@ -11,7 +11,10 @@
     "pino": "*"
   },
   "devDependencies": {
+    "eslint": "*",
+    "@stylistic/eslint-plugin": "*",
     "typescript": "*",
+    "@typescript-eslint/parser": "*",
     "@types/node": "*"
   }
 }
