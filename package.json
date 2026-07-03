@@ -4,6 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "hint": "htmlhint public/*.html",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "start": "node dist/server.js",
     "test": "node --test"
   },
@@ -12,6 +15,8 @@
   },
   "devDependencies": {
     "eslint": "*",
+    "htmlhint": "*",
+    "node-html-parser": "*",
     "@stylistic/eslint-plugin": "*",
     "typescript": "*",
     "@typescript-eslint/parser": "*",
