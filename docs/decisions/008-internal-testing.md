@@ -27,8 +27,8 @@ Require testing only before merges to the origin main branch, because:
 - Mandatory testing before pushes to the origin of a feature branch would deter routine pushes that protect the local code from accidental deletion.
 - The absence of a local-branch testing requirement still allows developers to perform voluntary testing of any local branches at any time.
 
-Although this decision governs only mandatory testing, deelopers are advised to precede any merge to an origin feature branch with voluntary testing if they believe that the local feature branch is bug-free.
+Although this decision governs only mandatory testing, developers are advised to precede any merge to an origin feature branch with voluntary testing unless they have not yet corrected known bugs in it.
 
 ### Confirmation
 
-To confirm that the implementation is correct, try to merge a defective origin feature branch to the origin main branch Verify that testing is automatically performed and the push or merge is prevented by a test failure.
+To confirm that the implementation is correct, try to merge a defective origin feature branch to the origin main branch. Verify that testing is automatically performed and the merge is prevented by a test failure.

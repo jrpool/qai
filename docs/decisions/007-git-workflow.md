@@ -1,0 +1,28 @@
+---
+date: 2026-07-02
+status: accepted
+---
+
+# Git workflow
+
+## Context and problem
+
+The QAI codebase uses Git for version control and GitHub as its remote repository, where the origin branches reside. For simplicity, the process of revision and versioning should be consistent. Therefore, a particular Git workflow should be chosen.
+
+## Considered options
+
+- Push to main: Merge feature branches into the main branch locally and then push the main branch to the origin.
+- PR to main: Merge feature branches into the main branch at the origin by means of approval of pull requests, and never push from the local to the origin main branch.
+
+In each case, the decision includes mandatory updates to the dependencies and mandatory internal testing before every push or merge to the origin main branch.
+
+## Decision
+
+PR to main, because:
+
+- It is more secure. If pushes from the local to the origin main branch are permitted, a developer can bypass required prerequisites with the `--no-verify` flag.
+- It is more team-friendly. QAI initially has only 1 developer using only 1 local host, but if other developers began to contribute to it then local main branches could diverge and pushes could conflict or lose changes.
+
+### Confirmation
+
+To confirm that the implementation is correct, try to push to the origin main branch and verify that the push attempt is rejected.

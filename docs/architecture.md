@@ -71,10 +71,10 @@ Architectural decisions will be made incrementally and may therefore change. The
 
 - Versioning will conform to the [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) specification. The first releases will be development releases, beginning with version 0.1.0, and versions before that, beginning with 0.0.1, will be prerelease versions.
 - The version strategy will be trunk-based with sprint-specific feature branches named according to the specifications of the course in which the project is being developed.
-- Updating dependencies will cause them to be updated to their latest versions, including major versions.
+- Installing or updating dependencies will yield their latest versions, including major versions.
 - The origin will be a private GitHub repository.
 - The authoritative main branch will be the main branch at the origin, and the only method by which it will be permitted to be revised is a merge after an approved pull request on a feature branch.
-- Before any pull request can be approved, an update to the dependencies and the performance of the internal tests, with no test failures reported, will be required.
+- Before any pull request can be approved, the source branch will require updated dependencies and internal testing with no test failures.
 - A 2-page HTML5 website will contain 1 static page for the tutorial and 1 static page for the comment form.
 - The tutorial page will contain 1 or more links to the comment form, with no `target` attribute.
 - The comment form will include a text area for a free-form comment and 0 or more inputs allowing the user to classify the comment, but no input seeking user identification or authentication.
