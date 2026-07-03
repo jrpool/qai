@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-QAI will install dependencies. A decision must be made about how to handle their updates.
+QAI will install dependencies. How should their updates be handled?
 
 ## Considered options
 

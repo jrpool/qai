@@ -17,6 +17,7 @@ QAI is currently in prerelease development. The history of strategic architectur
 - [Project vision](./docs/project-vision.md)
 - [Requirements](./docs/requirements.md)
 - [Architecture](./docs/architecture.md)
+- [Architecture decision records](./docs/decisions)
 
 ## Setup notes
 

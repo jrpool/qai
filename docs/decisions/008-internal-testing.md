@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-Internal testing creates a tradeoff between speed of development and risk of debugging effort. A reasonable decision on the conditions under which internal testing is mandatory is required.
+Internal testing creates a tradeoff between speed of development and risk of debugging effort. Under what conditions should internal testing be required?
 
 ## Considered options
 

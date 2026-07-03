@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-Several decisions are being made early in the life of the project. The problem is defining an importance threshold meriting the documentation of a decision in an ADR.
+Several decisions are being made early in the life of the project. What importance threshold should merit the documentation of a decision in an architectural decision record (ADR)?
 
 ## Considered options
 

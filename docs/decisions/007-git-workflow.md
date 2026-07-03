@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-The QAI codebase uses Git for version control and GitHub as its remote repository, where the origin branches reside. For simplicity, the process of revision and versioning should be consistent. Therefore, a particular Git workflow should be chosen.
+The course in which QAI is being developed requires the use of Git for version control and GitHub as the host of the origin repository. For simplicity, the process of revision and versioning should be consistent. What Git workflow should be chosen?
 
 ## Considered options
 
