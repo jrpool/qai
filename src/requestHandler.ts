@@ -23,7 +23,7 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
   const url = req.url ?? '/';
   const file = routes[url];
   if (! file) {
-    handleError(res, 404, `${url} not found`);
+    handleError(res, `${url} not found`, 404);
     return;
   }
   try {
@@ -32,9 +32,9 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
     // Serve it to the client.
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(content);
-    log('info', 'response', 200, file);
+    log('info', 'response', file, 200);
   } catch (_) {
-    handleError(res, 500, `Server failed to serve ${url}`);
+    handleError(res, `Server failed to serve ${url}`, 500);
   }
 }
 

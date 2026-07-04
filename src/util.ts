@@ -8,8 +8,8 @@ import {ServerResponse} from 'node:http';
 const log = (
   level: 'error' | 'warning' | 'info',
   type: 'listening' | 'response' | 'userError' | 'systemError',
-  statusCode: number,
-  content: unknown
+  content: unknown,
+  statusCode?: number
 ) => {
   let message: string = '';
   if (typeof content === 'string') {
@@ -25,18 +25,18 @@ const log = (
     time: new Date().toISOString(),
     level,
     type,
-    statusCode,
-    message
+    message,
+    statusCode
   }, null, 2));
 };
 
 // Serves and logs an error.
-const handleError = (res: ServerResponse, statusCode: number, errorMessage: string) => {
+const handleError = (res: ServerResponse, errorMessage: string, statusCode: number) => {
   res.writeHead(statusCode);
   res.end(errorMessage);
   const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';
   const level = type === 'userError' ? 'info' : 'error';
-  log(level, type, statusCode, errorMessage);
+  log(level, type, errorMessage, statusCode);
 };
 
 export {log, handleError};
