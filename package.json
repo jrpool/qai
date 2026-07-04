@@ -3,16 +3,14 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "typecheck": "tsc",
     "hint": "htmlhint public/*.html",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "start": "node dist/server.js",
     "test": "node --test"
   },
-  "dependencies": {
-    "pino": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "*",
     "htmlhint": "*",

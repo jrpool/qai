@@ -1,14 +1,12 @@
 import {before, after, test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer, type Server} from 'node:http';
+import {handler} from './requestHandler.ts';
 
 let server: Server;
 
 before(() => new Promise<void>(resolve => {
-  server = createServer((_, res) => {
-    res.writeHead(200);
-    res.end('ok');
-  });
+  server = createServer(handler);
   server.listen(3001, resolve);
 }));
 
