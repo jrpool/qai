@@ -9,19 +9,17 @@ const log = (
   level: 'error' | 'warning' | 'info',
   type: 'listening' | 'response' | 'userError' | 'systemError',
   statusCode: number,
-  content: any
+  content: unknown
 ) => {
   let message: string = '';
   if (typeof content === 'string') {
     message = content;
   }
+  else if (content instanceof Error) {
+    message = content.message;
+  }
   else {
-    if (typeof content === 'object' && content instanceof Error) {
-      message = content.message;
-    }
-    else {
-      message = String(content) || 'Unknown error';
-    }
+    message = String(content) || 'Unknown error';
   }
   console.log(JSON.stringify({
     time: new Date().toISOString(),
