@@ -43,7 +43,8 @@ const handleError: (
   res.writeHead(statusCode);
   res.end(errorMessage);
   const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';
-  log('error', type, statusCode, errorMessage);
+  const level = type === 'userError' ? 'info' : 'error';
+  log(level, type, statusCode, errorMessage);
 };
 
 export {log, handleError};
