@@ -2,6 +2,7 @@ import {before, after, test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer, type Server} from 'node:http';
 import {type AddressInfo} from 'node:net';
+import {parse} from 'node-html-parser';
 import {handler} from './requestHandler.ts';
 
 let server: Server;
@@ -32,4 +33,12 @@ test('GET request to comments file (/comments) gets response with status 200', a
 test('GET request to bad path (/blah) gets response with status 404', async () => {
   const response = await fetch(`http://localhost:${port}/blah`);
   assert.equal(response.status, 404);
+});
+
+test('GET request to root (/) gets the tutorial title', async () => {
+  const response = await fetch(`http://localhost:${port}/`);
+  const html = await response.text();
+  const root = parse(html);
+  const title = root.querySelector('title');
+  assert.equal(title?.textContent, 'Tutorial | QAI');
 });
