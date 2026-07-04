@@ -4,8 +4,16 @@
 
 import {ServerResponse} from 'node:http';
 
-// Logs a message to the console.
-const log: (level: 'error' | 'warning' | 'info', content: any) => void = (level: string, content: any) => {
+// Outputs a log to the console.
+const log: (
+  level: 'error' | 'warning' | 'info',
+  type: 'request' | 'userError' | 'systemError',
+  content: any
+) => void = (
+  level: 'error' | 'warning' | 'info',
+  type: 'request' | 'userError' | 'systemError',
+  content: any
+) => {
   let message: string = content;
   if (typeof content !== 'string') {
     if (typeof content === 'object' && content instanceof Error) {
@@ -16,7 +24,9 @@ const log: (level: 'error' | 'warning' | 'info', content: any) => void = (level:
     }
   }
   console.log(JSON.stringify({
+    time: new Date().toISOString(),
     level,
+    type,
     message
   }, null, 2));
 };
@@ -29,7 +39,8 @@ const handleError: (
 ) => void = (res: ServerResponse, statusCode: number, errorMessage: String) => {
   res.writeHead(statusCode);
   res.end(errorMessage);
-  log('error', errorMessage);
+  const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';
+  log('error', type, errorMessage);
 };
 
 export {log, handleError};
