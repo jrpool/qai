@@ -25,7 +25,7 @@ test('GET request to root (/) gets response with status 200', async () => {
   assert.equal(response.status, 200);
 });
 
-test('GET request to comments file (/comments) gets response with status 200', async () => {
+test('GET request to comments page (/comments) gets response with status 200', async () => {
   const response = await fetch(`http://localhost:${port}/comments`);
   assert.equal(response.status, 200);
 });
@@ -41,4 +41,12 @@ test('GET request to root (/) gets the tutorial title', async () => {
   const root = parse(html);
   const title = root.querySelector('title');
   assert.equal(title?.textContent, 'Tutorial | QAI');
+});
+
+test('GET request to comments page (/comments) gets the comments title', async () => {
+  const response = await fetch(`http://localhost:${port}/comments`);
+  const html = await response.text();
+  const root = parse(html);
+  const title = root.querySelector('title');
+  assert.equal(title?.textContent, 'Comments | QAI');
 });

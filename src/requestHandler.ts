@@ -27,7 +27,9 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
     return;
   }
   try {
+    // Get the HTML file content.
     const content = await readFile(join(__dirname, '..', 'public', file), 'utf-8');
+    // Serve it to the client.
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(content);
     log('info', 'response', 200, file);
