@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "typecheck": "tsc",
+    "check": "npm run typecheck && npm run hint && npm run lint && npm test",
     "hint": "htmlhint public/*.html",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "start": "node --env-file=.env src/main.ts",
-    "test": "node --test"
+    "test": "node --test",
+    "typecheck": "tsc"
   },
   "dependencies": {},
   "devDependencies": {
