@@ -5,7 +5,8 @@
     "moduleResolution": "NodeNext",
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }
