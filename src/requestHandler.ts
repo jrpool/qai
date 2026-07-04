@@ -4,7 +4,7 @@ import {IncomingMessage, ServerResponse} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {log} from './util.js';
+import {log} from './util.ts';
 
 // CONSTANTS
 
@@ -21,15 +21,16 @@ const routes: Record<string, string> = {
 // Handles requests.
 const handler = async (req: IncomingMessage, res: ServerResponse) => {
   const file = routes[req.url ?? '/'];
-  if (!file) {
+  if (! file) {
     res.writeHead(404);
     res.end('Not found');
     return;
   }
   try {
-    const content = await readFile(join(__dirname, '..', 'public',file), 'utf-8');
+    const content = await readFile(join(__dirname, '..', 'public', file), 'utf-8');
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(content);
+    log('info', `Served ${file}`);
   } catch (err) {
     log('error', String(err));
     res.writeHead(500);

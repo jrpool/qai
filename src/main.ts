@@ -1,6 +1,6 @@
 import {createServer} from 'node:http';
-import {handler} from './requestHandler.js';
-import {log} from './util.js';
+import {handler} from './requestHandler.ts';
+import {log} from './util.ts';
 
 const PORT = process.env.PORT ?? 3001;
 
