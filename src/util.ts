@@ -11,7 +11,7 @@ const log: (
   content: any
 ) => void = (
   level: 'error' | 'warning' | 'info',
-  type: 'request' | 'userError' | 'systemError',
+  type: 'listening' | 'request' | 'userError' | 'systemError',
   content: any
 ) => {
   let message: string = content;
