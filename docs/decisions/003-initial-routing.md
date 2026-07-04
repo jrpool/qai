@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-QAI is being developed as a project in a university course and must satisfy requirements imposed by the course. The architecture document describes an initial deployment that makes use of the existing domain registrar, host, and proxy server of Kilotest. The course does not require the application to be deployed at all, so the creator is free to deploy it or not, but does require the application to incorporate a server-client infrastructure. In this context, a decision must be made on the routing of requests to and responses from QAI.
+QAI is being developed as a project in a university course and must satisfy requirements imposed by the course. The architecture document describes an initial deployment that makes use of the existing domain registrar, host, and proxy server of Kilotest. The course does not require the application to be deployed at all, so the creator is free to deploy it or not, but does require the application to incorporate a server-client infrastructure. In this context, how should requests to and responses from QAI be routed?
 
 ## Considered options
 

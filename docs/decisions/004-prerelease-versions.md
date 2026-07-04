@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-QAI is being developed incrementally. Several incremental versions will be required for the production of the [first release](../architecture.md). The first incremental version will be version 0.0.1. A problem facing this version is the selection of architectural elements to be included in it.
+QAI is being developed incrementally. Several incremental versions will be required for the production of the [first release](../architecture.md). The first incremental version will be version 0.0.1. What architectural elements should be included in that version?
 
 ## Considered options
 

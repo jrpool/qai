@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-The maintainer will want to review some data about the operation of QAI and will want to be alerted to some activities. Decisions are required about what data to collect and what activities merit alerts.
+The maintainer will want to review some data about the operation of QAI and will want to be alerted to some activities. What data should be collected, and what activities should merit alerts?
 
 ## Considered options
 

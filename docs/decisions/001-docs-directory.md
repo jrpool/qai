@@ -7,7 +7,7 @@ status: accepted
 
 ## Context and problem
 
-The project began with four files of planning documentation at the root and is now going to acquire ADRs as well. The problem is where to locate all those documents.
+The project began with four files of planning documentation at the root and is now going to acquire ADRs as well. Where should all those documents be located?
 
 ## Considered options
 

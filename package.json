@@ -1,0 +1,24 @@
+{
+  "name": "qai",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "check": "npm run typecheck && npm run hint && npm run lint && npm test",
+    "hint": "htmlhint public/*.html",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "start": "node --env-file=.env src/main.ts",
+    "test": "node --test",
+    "typecheck": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "*",
+    "htmlhint": "*",
+    "node-html-parser": "*",
+    "@stylistic/eslint-plugin": "*",
+    "typescript": "*",
+    "@typescript-eslint/parser": "*",
+    "@types/node": "*"
+  }
+}
