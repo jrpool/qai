@@ -8,10 +8,12 @@ import {ServerResponse} from 'node:http';
 const log: (
   level: 'error' | 'warning' | 'info',
   type: 'listening' | 'request' | 'userError' | 'systemError',
+  statusCode: number,
   content: any
 ) => void = (
   level: 'error' | 'warning' | 'info',
   type: 'listening' | 'request' | 'userError' | 'systemError',
+  statusCode: number,
   content: any
 ) => {
   let message: string = content;
@@ -27,6 +29,7 @@ const log: (
     time: new Date().toISOString(),
     level,
     type,
+    statusCode,
     message
   }, null, 2));
 };
@@ -40,7 +43,7 @@ const handleError: (
   res.writeHead(statusCode);
   res.end(errorMessage);
   const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';
-  log('error', type, errorMessage);
+  log('error', type, statusCode, errorMessage);
 };
 
 export {log, handleError};

@@ -30,7 +30,7 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
     const content = await readFile(join(__dirname, '..', 'public', file), 'utf-8');
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(content);
-    log('info', 'request', file);
+    log('info', 'request', 200, file);
   } catch (_) {
     handleError(res, 500, `Server failed to serve ${url}`);
   }
