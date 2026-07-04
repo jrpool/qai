@@ -7,7 +7,7 @@
     "hint": "htmlhint public/*.html",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "start": "node src/main.ts",
+    "start": "node --env-file=.env src/main.ts",
     "test": "node --test"
   },
   "dependencies": {},

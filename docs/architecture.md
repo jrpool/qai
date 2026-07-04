@@ -22,7 +22,6 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Observability module: a dependency used for metrics, logs, and traces
 - Alerting module: a dependency used for alerts to the maintainer
 - Environment file: a properties file storing environment variables
-- Environment module: a dependency used for retrieval of environment variables
 - Test module: a dependency used for internal testing
 - Test cases: artifacts specifying tests to be performed by the test module
 - Test service: an external service used for front-end quality testing of the deployed application
@@ -33,7 +32,7 @@ The architecture of the first release is an HTML website with a Node.js server h
 - SSL termination: proxy server
 - Request routing: host, proxy server, and Node.js server
 - Request handling: Node.js server
-- Configuration: Node.js server, environment module, and environment file
+- Configuration: Node.js server and environment file
 - Health monitoring: monitoring service
 - Form content submission, validation, recording, and acknowledgment: Node.js server
 - Alerting: Node.js server, observability module, and alerting module
@@ -55,7 +54,7 @@ The architecture of the first release is an HTML website with a Node.js server h
 - Health alerting: Flow from monitoring service to maintainer.
 - Comments: Flow from Node.js server to (1) comments file and (2) observability module to alerting module, logs, and metrics.
 - Form submission responses: Identical to external responses.
-- Configuration retrieval: Flow from Node.js server to environment module to environment file to environment module to Node.js server.
+- Configuration retrieval: Flow from Node.js server to environment file to Node.js server.
 - Error handling: Flow from Node.js server to:
 
   - observability module to:
@@ -83,7 +82,7 @@ Architectural decisions will be made incrementally and may therefore change. The
 - An external monitoring service will periodically poll QAI and send alerts to the maintainer if QAI times out, fails to respond, or refuses the connection.
 - All comments will be handled by the Node.js server. It will record comments in the comments file, acknowledge submission to the browser via the proxy server, and notify the observability module, which will request alerts from the alerting module and add form-submission events to its logs and metrics.
 - The maintainer will edit the comments file to remove comments that have been disposed of.
-- Requests, responses, and form processing will be performed by server-side Node.js ECMAScript modules written in TypeScript.
+- Requests, responses, and form processing will be performed by server-side Node.js ECMAScript modules written in TypeScript and executed natively by the Node.js runtime without transcompilation.
 - The TypeScript, HTML, and CSS files will conform to the [ESLint configuration defined for Kilotest](https://github.com/jrpool/kilotest/blob/main/eslint.config.mjs).
 - The HTML files will declare `en-US` as the document language, use UTF-8 encoding, use distinction-first titles with vertical-bar delimiters, and be responsive to viewport sizes and orientations.
 - The maintainer will be responsible for obtaining testing of the deployed application by the test service and remediating any defects reported in the test results at appropriate intervals.

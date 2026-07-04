@@ -4,7 +4,7 @@ import {IncomingMessage, ServerResponse} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {log} from './util.ts';
+import {handleError, log} from './util.ts';
 
 // CONSTANTS
 
@@ -20,10 +20,10 @@ const routes: Record<string, string> = {
 
 // Handles requests.
 const handler = async (req: IncomingMessage, res: ServerResponse) => {
-  const file = routes[req.url ?? '/'];
+  const url = req.url ?? '/';
+  const file = routes[url];
   if (! file) {
-    res.writeHead(404);
-    res.end('Not found');
+    handleError(res, 404, `${url} not found`);
     return;
   }
   try {
@@ -31,10 +31,8 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(content);
     log('info', `Served ${file}`);
-  } catch (err) {
-    log('error', String(err));
-    res.writeHead(500);
-    res.end('Internal server error');
+  } catch (_) {
+    handleError(res, 500, `Server failed to serve ${url}`);
   }
 }
 
