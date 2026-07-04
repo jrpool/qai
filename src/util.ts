@@ -7,7 +7,7 @@ import {ServerResponse} from 'node:http';
 // Outputs a log to the console.
 const log: (
   level: 'error' | 'warning' | 'info',
-  type: 'request' | 'userError' | 'systemError',
+  type: 'listening' | 'request' | 'userError' | 'systemError',
   content: any
 ) => void = (
   level: 'error' | 'warning' | 'info',
