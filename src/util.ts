@@ -16,8 +16,11 @@ const log: (
   statusCode: number,
   content: any
 ) => {
-  let message: string = content;
-  if (typeof content !== 'string') {
+  let message: string = '';
+  if (typeof content === 'string') {
+    message = content;
+  }
+  else {
     if (typeof content === 'object' && content instanceof Error) {
       message = content.message;
     }
@@ -38,8 +41,8 @@ const log: (
 const handleError: (
   res: ServerResponse,
   statusCode: number,
-  errorMessage: String
-) => void = (res: ServerResponse, statusCode: number, errorMessage: String) => {
+  errorMessage: string
+) => void = (res: ServerResponse, statusCode: number, errorMessage: string) => {
   res.writeHead(statusCode);
   res.end(errorMessage);
   const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';

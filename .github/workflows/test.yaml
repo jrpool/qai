@@ -17,5 +17,5 @@ jobs:
         run: npm ci
       - name: Update dependencies to latest versions
         run: npm update
-      - name: Run internal tests
-        run: npm test
+      - name: Run internal checks
+        run: npm run check
