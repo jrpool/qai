@@ -28,3 +28,8 @@ test('GET request to comments file (/comments) gets response with status 200', a
   const response = await fetch(`http://localhost:${port}/comments`);
   assert.equal(response.status, 200);
 });
+
+test('GET request to bad path (/blah) gets response with status 404', async () => {
+  const response = await fetch(`http://localhost:${port}/blah`);
+  assert.equal(response.status, 404);
+});
