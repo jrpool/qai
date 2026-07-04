@@ -7,12 +7,12 @@ import {ServerResponse} from 'node:http';
 // Outputs a log to the console.
 const log: (
   level: 'error' | 'warning' | 'info',
-  type: 'listening' | 'request' | 'userError' | 'systemError',
+  type: 'listening' | 'response' | 'userError' | 'systemError',
   statusCode: number,
   content: any
 ) => void = (
   level: 'error' | 'warning' | 'info',
-  type: 'listening' | 'request' | 'userError' | 'systemError',
+  type: 'listening' | 'response' | 'userError' | 'systemError',
   statusCode: number,
   content: any
 ) => {
