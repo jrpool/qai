@@ -1,13 +1,18 @@
 import {before, after, test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer, type Server} from 'node:http';
+import {type AddressInfo} from 'node:net';
 import {handler} from './requestHandler.ts';
 
 let server: Server;
+let port: number;
 
 before(() => new Promise<void>(resolve => {
   server = createServer(handler);
-  server.listen(3001, resolve);
+  server.listen(0, () => {
+    port = (server.address() as AddressInfo).port;
+    resolve();
+  });
 }));
 
 after(() => new Promise<void>(resolve => {
@@ -15,6 +20,11 @@ after(() => new Promise<void>(resolve => {
 }));
 
 test('GET request to root (/) gets response with status 200', async () => {
-  const response = await fetch('http://localhost:3001/');
+  const response = await fetch(`http://localhost:${port}/`);
+  assert.equal(response.status, 200);
+});
+
+test('GET request to comments file (/comments) gets response with status 200', async () => {
+  const response = await fetch(`http://localhost:${port}/comments`);
   assert.equal(response.status, 200);
 });
