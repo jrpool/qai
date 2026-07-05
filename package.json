@@ -13,6 +13,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "c8": "*",
     "eslint": "*",
     "htmlhint": "*",
     "node-html-parser": "*",
