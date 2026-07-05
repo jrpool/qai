@@ -2,6 +2,11 @@ import {stringify} from './util.ts';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 
+test('String is logged as-is', async () => {
+  const message = stringify('This is a message');
+  assert.equal(message, 'This is a message');
+});
+
 test('Error is converted to its message for logging', async () => {
   const message = stringify(new Error('This is a message'));
   assert.equal(message, 'This is a message');
