@@ -11,7 +11,7 @@ import {handleError, log} from './util.ts';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Route map: URL path → HTML file
-const routes: Record<string, string> = {
+export const routes: Record<string, string> = {
   '/': 'tutorial.html',
   '/comments': 'comments.html'
 };
@@ -19,8 +19,8 @@ const routes: Record<string, string> = {
 // FUNCTIONS
 
 // Handles requests.
-const handler = async (req: IncomingMessage, res: ServerResponse) => {
-  const url = req.url ?? '/';
+export const handler = async (req: IncomingMessage, res: ServerResponse) => {
+  const url = req.url as string;
   const file = routes[url];
   if (! file) {
     handleError(res, `${url} not found`, 404);
@@ -34,8 +34,6 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
     res.end(content);
     log('info', 'response', file, 200);
   } catch (_) {
-    handleError(res, `Server failed to serve ${url}`, 500);
+    handleError(res, `Server failed to serve ${url} (${file})`, 500);
   }
 }
-
-export {handler};
