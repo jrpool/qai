@@ -10,9 +10,28 @@ QAI is currently deployed as a guest of [Kilotest](https://github.com/jrpool/kil
 
 The details of the Kilotest deployment are documented in the [Kilotest `SERVICE.md` file](https://github.com/jrpool/kilotest/blob/main/SERVICE.md). The following details supplement that file.
 
+## Node.js prerequisite
+
+The code in QAI is written in TypeScript and not transpiled to JavaScript. Node versions before v23 do not natively execute TypeScript files. The Kilotest host runs Node v24 and thus satisfies this prerequisite.
+
+## Environment variables
+
+The `.env` file is not tracked by Git because in the future it may contain secrets. Therefore, it has been recreated on the deployment host.
+
+## Package management
+
+At present QAI has no run-time dependencies, so after the main branch is modified in the origin repository the deployment can be updated with:
+
+- `git pull`
+- `pm2 restart qai`
+
+No `npm update` statement is required.
+
 ## Request management
 
 The `Caddyfile` shown in the Kilotest `SERVICE.md` file includes a modification that provides request forwarding to QAI, which listens on port 3001.
+
+If the port configured by the `.env` file were to change, the `Caddyfile` port for QAI would need to be updated accordingly.
 
 ## Process management
 
