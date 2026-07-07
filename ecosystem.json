@@ -2,6 +2,7 @@
   "apps": [
     {
       "name": "qai",
+      "interpreter": "node",
       "script": "src/main.ts",
       "node_args": "--env-file=.env",
       "instances": 1,
