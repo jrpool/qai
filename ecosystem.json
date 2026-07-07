@@ -3,6 +3,7 @@
     {
       "name": "qai",
       "interpreter": "node",
+      "exec_mode": "fork",
       "script": "src/main.ts",
       "node_args": "--env-file=.env",
       "instances": 1,
