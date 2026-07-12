@@ -9,7 +9,7 @@
     "lint:fix": "eslint src/ --fix",
     "start": "node --env-file=.env src/main.ts",
     "test": "c8 --check-coverage --clean node --test",
-    "typecheck": "tsc"
+    "typecheck": "tsc --strict"
   },
   "dependencies": {},
   "devDependencies": {
