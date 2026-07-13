@@ -1,4 +1,4 @@
-name: test
+name: checks
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,7 +15,5 @@ jobs:
           node-version: lts/*
       - name: Install dependencies from the lockfile
         run: npm ci
-      - name: Update dependencies to latest versions
-        run: npm update
       - name: Run internal checks
         run: npm run check

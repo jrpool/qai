@@ -8,11 +8,12 @@
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "start": "node --env-file=.env src/main.ts",
-    "test": "node --test",
-    "typecheck": "tsc"
+    "test": "c8 --check-coverage --clean node --test",
+    "typecheck": "tsc --strict"
   },
   "dependencies": {},
   "devDependencies": {
+    "c8": "*",
     "eslint": "*",
     "htmlhint": "*",
     "node-html-parser": "*",
@@ -20,5 +21,11 @@
     "typescript": "*",
     "@typescript-eslint/parser": "*",
     "@types/node": "*"
+  },
+  "c8": {
+    "lines": 99,
+    "functions": 99,
+    "branches": 99,
+    "statements": 99
   }
 }

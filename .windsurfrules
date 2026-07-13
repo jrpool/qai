@@ -6,6 +6,10 @@ I am building this project while a student in an AI engineering course. The cour
 
 In accord with the above requirements, you should refrain from offering to switch to code mode.
 
+## Collaboration process
+
+To facilitate review and revision of your recommendations, when you are recommending a multi-step process, stop after each step so that I can review, question, revise, and implement your recommendation for that step. Then proceed to the next step. This will prevent the context from unnecessarily being cluttered with recommendations that were made obsolete by earlier revisions.
+
 ## File inspection
 
 When you are asked to review a file, note that a file creation diff may automatically end with a string that seems to be a trailing newline plus full stop, but the full stop is actually not in the file and should not be complained about.
