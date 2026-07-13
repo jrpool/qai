@@ -38,6 +38,8 @@ The application passes all automatic and non-automatic verifications.
 
 All issues that have been found have been subsequently remediated.
 
+On 2026-07-12 an update of dependencies updated `node-html-parser` to version 9.0.0. A bug in that version threw TS2502 type errors. As a temporary evasion, the `tsconfig.json` file was updated to set `compilerOptions.skipLibCheck` to `true`. The maintainer reported the bug as an [issue](https://github.com/taoqf/node-html-parser/issues/316).
+
 ## Engineering conclusion
 
 All implemented verification procedures are correct, and the application passes them all.
