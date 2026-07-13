@@ -13,8 +13,8 @@ These automated verification procedures have been implemented:
 - `npm run typecheck`: Runs the TypeScript compiler with strict mode enabled to verify that the code is free of type errors.
 - `npm run lint`: Runs the ESLint linter to verify that the code conforms to the project’s coding standards specified in `eslint.config.mjs`.
 - `npm run hint`: Runs the HTMLHint linter to verify that the HTML files conform to the project’s coding standards specified in `.htmlhintrc`.
-- `docs/rulesets/main.json`: A copy of the GitHub branch protection rules implemented for the main branch.
-- `test` script in `package.json`: runs the Node.js test runner while collecting code coverage with `c8` and fails if the coverage is less than 99%.
+- `npm run test`: Runs the Node.js test runner while collecting code coverage with `c8` and failing unless all coverage metrics are at least 99%.
+- `main`: A GitHub ruleset (copy in `docs/rulesets/main.json`) requiring all checks to be run before the source branch of any approved pull request is merged into the main branch. Once the repository becomes public, the requirement will be upgraded to make the success of all checks mandatory.
 
 ## Expected results
 
