@@ -1,6 +1,6 @@
 {
   "name": "qai",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "check": "npm run typecheck && npm run hint && npm run lint && npm test",
