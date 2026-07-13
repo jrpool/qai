@@ -17,11 +17,25 @@ QAI is currently in prerelease development. The history of strategic architectur
 - [Project vision](./docs/project-vision.md)
 - [Requirements](./docs/requirements.md)
 - [Architecture](./docs/architecture.md)
-- [Development ruleset](./docs/ruleset-main.json)
+- [Development ruleset](./docs/rulesets/main.json)
 - [Architecture decision records](./docs/decisions)
+- [AI implementation notes](./docs/ai-implementation.md)
+- [Verification notes](./docs/manual-verification.md)
+- [Deployment notes](./docs/deployment.md)
 
 The development ruleset is not enforceable while the origin is a private repository.
 
 ## Setup notes
 
-It is anticipated that you will not need any setup and will be able to visit a website with a browser to start using QAI. Instructions for doing that will appear here when the guide is ready to use.
+For local execution:
+
+- Install Node.js.
+- Run `npm install`.
+- Run `npm start`.
+
+For local checks: run `npm run check`.
+
+For the production user experience:
+
+- Visit `https://kilotest.com/qai`.
+- Visit `https://kilotest.com/qai/comments`.
