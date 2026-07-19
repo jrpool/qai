@@ -17,10 +17,11 @@ QAI is currently in prerelease development. The history of strategic architectur
 - [Project vision](./docs/project-vision.md)
 - [Requirements](./docs/requirements.md)
 - [Architecture](./docs/architecture.md)
-- [Development ruleset](./docs/rulesets/main.json)
+- [Development ruleset](./docs/rulesets/qai-main.json)
 - [Architecture decision records](./docs/decisions)
 - [AI implementation notes](./docs/ai-implementation.md)
 - [Verification notes](./docs/manual-verification.md)
+- [Repository management](./docs/repository.md)
 - [Deployment notes](./docs/deployment.md)
 
 The development ruleset is not enforceable while the origin is a private repository.
