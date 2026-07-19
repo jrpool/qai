@@ -1,5 +1,5 @@
 ---
-date: 2026-07-01
+date: 2026-07-15
 status: accepted
 ---
 
@@ -7,12 +7,12 @@ status: accepted
 
 ## Context and problem
 
-QAI is being developed incrementally. Several incremental versions will be required for the production of the [first release](../architecture.md). The first incremental version will be version 0.0.1. What architectural elements should be included in that version?
+QAI is being developed incrementally. Several incremental versions will be required for the production of the [first release](../architecture.md). The first incremental version will be version 0.1.0. What architectural elements should be included in that version?
 
 ## Considered options
 
-- Content-heavy: Include in version 0.0.1 a simple tutorial page and only such other components that are required to allow the page to be served.
-- Infrastructure-heavy: Create in version 0.0.1 a minimal placeholder tutorial page and the minimal working implementations of the other components of the [described architecture](../architecture.md).
+- Content-heavy: Include in version 0.1.0 a simple tutorial page and only such other components that are required to allow the page to be served.
+- Infrastructure-heavy: Create in version 0.1.0 a minimal placeholder tutorial page and the minimal working implementations of the other components of the [described architecture](../architecture.md).
 
 ## Decision
 
