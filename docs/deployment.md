@@ -18,21 +18,6 @@ The code in QAI is written in TypeScript and not transpiled to JavaScript. Node 
 
 The `.env` file is not tracked by Git because in the future it may contain secrets. Therefore, it has been recreated on the deployment host.
 
-## Package management
-
-At present QAI has no run-time dependencies, so after the main branch is modified in the origin repository the deployment can be updated with:
-
-- `git pull`
-- `pm2 restart qai`
-
-No `npm update` statement is required.
-
-## Request management
-
-The `Caddyfile` shown in the Kilotest `SERVICE.md` file includes a modification that provides request forwarding to QAI, which listens on port 3001.
-
-If the port configured by the `.env` file were to change, the `Caddyfile` port for QAI would need to be updated accordingly.
-
 ## Process management
 
 The PM2 process manager is installed globally on the deployment host and configured separately in each service. For QAI, the configuration is in the `ecosystem.json` file.
@@ -46,12 +31,19 @@ pm2 delete qai
 pm2 start ecosystem.json
 ```
 
-## Repository access
+At present QAI has no run-time dependencies, so after the main branch is modified in the origin repository the deployment can be updated with `git pull` and then `pm2 restart qai`. No `npm update` statement is required.
 
-The QAI repository on GitHub is private. This prevents anonymous users from fetching it and therefore requires the QAI maintainer to authenticate with a personal access token when cloning or pulling a branch.
+## Request management
 
-That requirement is avoided by means of SSH:
+The `Caddyfile` shown in the Kilotest `SERVICE.md` file includes a modification that provides request forwarding to QAI, which listens on port 3001.
 
-- On the deployment host, the QAI maintainer (`linuxuser`) has configured an SSH key pair.
-- On GitHub, the public key of that pair has been added as a deploy key to the QAI repository, with read but not write permission.
-- On the deployment host, the remote repository access protocol has been changed from `https` to `ssh` with: `git remote set-url origin git@github.com:jrpool/qai.git`.
+If the port configured by the `.env` file were to change, the `Caddyfile` port for QAI would need to be updated accordingly.
+
+## Health
+
+The health of the deployment is monitored by [UptimeRobot](https://dashboard.uptimerobot.com/monitors/803546556). That services checks `https://kilotest.com/qai` once per hour and sends an email message to the maintainer in either of two cases:
+
+- The response status code is 502. In that case, the message says `Root cause: HTTP 502 - BAD GATEWAY`.
+- The response times out. In that case, the message says `Root cause: CONNECTION TIMEOUT`.
+
+The service sends another message saying `The latest incident has been resolved and your monitor is up again` after a successful check after an unsuccessful one.

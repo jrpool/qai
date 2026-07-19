@@ -1,5 +1,7 @@
 # QAI: verification
 
+Revision date: 2026-07-19.
+
 ## Actions performed
 
 The name of this file is `manual-verification.md`, but the content describes all verification performed, whether automated or not.
@@ -13,18 +15,39 @@ These automated verification procedures have been implemented:
 - `npm run typecheck`: Runs the TypeScript compiler with strict mode enabled to verify that the code is free of type errors.
 - `npm run lint`: Runs the ESLint linter to verify that the code conforms to the project’s coding standards specified in `eslint.config.mjs`.
 - `npm run hint`: Runs the HTMLHint linter to verify that the HTML files conform to the project’s coding standards specified in `.htmlhintrc`.
-- `npm run test`: Runs the Node.js test runner while collecting code coverage with `c8` and failing unless all coverage metrics are at least 99%.
-- `main`: A GitHub ruleset (copy in `docs/rulesets/main.json`) requiring all checks to be run before the source branch of any approved pull request is merged into the main branch. Once the repository becomes public, the requirement will be upgraded to make the success of all checks mandatory.
+- `npm run test`: Runs the Node.js test runner while collecting code coverage with `c8` and failing unless all coverage metrics are 100%.
+- `qai-main`: A GitHub ruleset (copy in `docs/rulesets/qai-main.json`) requiring all checks to be run before the source branch of any approved pull request is merged into the main branch. Once the repository becomes public, the requirement will be upgraded to make the success of all checks mandatory.
 
 ### Non-automatic verification
 
 The developer has performed these verification procedures:
+
+#### Local operation
 
 - Launch the application with `npm start`.
 - Navigate with a browser to `localhost:3001`.
 - Observe that the tutorial page is rendered.
 - Navigate to `localhost:3001/comments`.
 - Observe that the comments page is rendered.
+
+#### Deployment
+
+- Visit `https://kilotest.com/qai`.
+- Observe that the tutorial page is rendered.
+- Visit `https://kilotest.com/qai/comments`.
+- Observe that the comments page is rendered.
+- On the deployment host in the QAI project root, execute `pm2 stop qai`.
+- Wait until the next health check.
+- Observe that the maintainer receives an email message reporting a 502 status error.
+- On the deployment host in the QAI project root, execute `pm2 start ecosystem.json`.
+- Wait until the next health check.
+- Observe that the maintainer receives an email message reporting QAI is healthy again.
+- On the deployment host, execute `sudo systemctl stop caddy`.
+- Wait until the next health check.
+- Observe that the maintainer receives an email message reporting a connection timeout.
+- On the deployment host, execute `sudo systemctl start caddy`.
+- Wait until the next health check.
+- Observe that the maintainer receives an email message reporting QAI is healthy again.
 
 ## Expected results
 
@@ -46,10 +69,8 @@ All implemented verification procedures are correct, and the application passes 
 
 However, additional features are planned, including:
 
-- Conversion of the origin repository from private to public visibility.
 - A link from the tutorial page to the comments page.
 - A form on the comments page for the submission of comments.
 - Alerts to the maintainer when comments are submitted.
-- Server health monitoring by an external service.
 
 These features will merit additional verification procedures.
