@@ -10,12 +10,13 @@ import {handleError, log} from './util.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Route map: URL path → file
+// Map of paths to files.
 export const routes: Record<string, string> = {
   '/': 'tutorial.html',
   '/comments': 'comments.html',
   '/favicon.ico': 'favicon.ico'
 };
+// Map of file extensions to content types.
 const contentTypeMap: Record<string, string> = {
   'html': 'text/html',
   'css': 'text/css',
