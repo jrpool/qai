@@ -57,3 +57,15 @@ test('GET request to root (/) if file unreadable gets status 500', async testCon
   assert.equal(response.status, 500);
   propertyMock.mock.restore();
 });
+
+test('GET request to route with unknown content type gets status 500', async testContext => {
+  const propertyMock = testContext.mock.property(routes, '/', 'unknown.xyz');
+  const response = await fetch(`http://localhost:${port}/`);
+  assert.equal(response.status, 500);
+  const body = await response.text();
+  assert.match(
+    body,
+    /Server failed to serve \/ \(unknown\.xyz\) because its content type is unknown/
+  );
+  propertyMock.mock.restore();
+});
