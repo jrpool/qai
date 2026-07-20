@@ -18,6 +18,7 @@ export const routes: Record<string, string> = {
 };
 const contentTypeMap: Record<string, string> = {
   'html': 'text/html',
+  'css': 'text/css',
   'ico': 'image/x-icon'
 };
 
