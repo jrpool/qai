@@ -49,6 +49,15 @@ The developer has performed these verification procedures:
 - Wait until the next health check.
 - Observe that the maintainer receives an email message reporting QAI is healthy again.
 
+#### Content
+
+- Visit `https://kilotest.com/qai`.
+- Follow all instructions on the tutorial page.
+- Observe that an LLM on the Claude platform at `claude.ai` uses Kilotest tools to answer questions about the quality of a web page.
+- Observe that, without the tutorial instructions being followed, the same LLM on the same platform fails to use any specialized tool to answer the same questions.
+- Activate the link on the tutorial page to the comments page.
+- Observe that the comments page is rendered.
+
 ## Expected results
 
 The application passes all automatic and non-automatic verifications.
