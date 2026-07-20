@@ -120,3 +120,11 @@ I accepted an LLM’s advice on how to number pre-release versions of the packag
 What specific action will you complete before the Sprint 3 Deliverable?
 
 The main remaining action in Sprint 3 will be to implement the comments form and the storage of and alerting about new comments. This will require equipping QAI with basic observability.
+
+## Repository evidence
+
+The QAI origin repository is at [https://github.com/jrpool/qai](https://github.com/jrpool/qai).
+
+The Sprint 3 branch is named `sprint-3-release`.
+
+An example of a commit making nontrivial changes is [Commit 9f20c76](https://github.com/jrpool/qai/commit/9f20c76073a01355af1d32f9e126dc40ed907eec).
