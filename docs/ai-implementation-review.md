@@ -25,13 +25,17 @@ One example of an accepted suggestion is to store the PM2 process manager’s co
 
 The evolution of that suggestion was not simple. The AI platform initially recommended a `.config.cjs` file for reasons that were not persuasive. The developer challenged the reasoning, and the AI platform responded: “You're right to question that — I was wrong. A JSON file would actually avoid the type problem entirely.”
 
+A later problem that was solved with AI help was inconsistent handling of relative URLs. AI assistance helped to identify the `Caddyfile` configuration as the best locus for a solution and how to revise the file correctly.
+
+AI assistance was also valuable for the design of test mocking.
+
 ## Rejected/postponed suggestion
 
 The developer has rejected or postponed few suggestions made by AI platforms during requested reviews.
 
 One example of a rejected suggestion is the suggested decrease of the required code coverage by the automated tests to a fraction less than 99%. The basis for the suggestion was that lower coverage requirements are common in software projects. The developer considered this a poor justification for setting a coverage requirement. The developer decided that being required to explicitly exempt lines from coverage for appropriate reasons is a valuable discipline.
 
-## Manual verification after AI review
+## Verification after AI review
 
 The developer has performed verifications after code changes, including changes that implement AI suggestions.
 
