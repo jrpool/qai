@@ -78,8 +78,6 @@ All implemented verification procedures are correct, and the application passes 
 
 However, additional features are planned, including:
 
-- A link from the tutorial page to the comments page.
-- A form on the comments page for the submission of comments.
 - Alerts to the maintainer when comments are submitted.
 
 These features will merit additional verification procedures.
