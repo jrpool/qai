@@ -51,29 +51,29 @@ Listed directory [qai](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai
 
 Let me examine the testing configuration, CI workflows, and progress reports to get the full picture.
 
-*Viewed [package.json](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/package.json) *
+Viewed [package.json](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/package.json)
 
-*Viewed [.htmlhintrc](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.htmlhintrc) *
+Viewed [.htmlhintrc](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.htmlhintrc)
 
-*Viewed [eslint.config.mjs](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/eslint.config.mjs) *
+Viewed [eslint.config.mjs](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/eslint.config.mjs)
 
-*Listed directory [.github](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github) *
+Listed directory [.github](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github)
 
-*Listed directory [docs](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs) *
+Listed directory [docs](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs)
 
-*Listed directory [workflows](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github/workflows) *
+Listed directory [workflows](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github/workflows)
 
-*Listed directory [rulesets](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/rulesets) *
+Listed directory [rulesets](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/rulesets)
 
-*Viewed [sprint-4-studio.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/progress-reports/sprint-4-studio.md) *
+Viewed [sprint-4-studio.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/progress-reports/sprint-4-studio.md)
 
-*Viewed [manual-verification.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/manual-verification.md) *
+Viewed [manual-verification.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/manual-verification.md)
 
-*Viewed [checks.yaml](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github/workflows/checks.yaml) *
+Viewed [checks.yaml](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/.github/workflows/checks.yaml)
 
-*Viewed [qai-main.json](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/rulesets/qai-main.json) *
+Viewed [qai-main.json](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/rulesets/qai-main.json)
 
-*Viewed [future.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/future.md) *
+Viewed [future.md](file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/docs/future.md)
 
 #### Planner Response 3
 
@@ -110,7 +110,7 @@ The tutorial at `@/Users/pool/Documents/Topics/repos/a11yTesting/qai/public/tuto
 **Approach: Playwright-based UI element verification.** Use Playwright to log into claude.ai with stored credentials (GitHub Secrets), navigate to the connector-adding flow, and assert that each referenced UI element exists with the expected label. This is a browser automation test that mirrors the tutorial's steps but checks for element presence rather than completing the full flow.
 
 - **Pros**: Directly tests what the tutorial describes; catches UI breakage early.
-- **Cons**: Requires Claude account credentials in CI; fragile when Anthropic changes their UI (but that fragility is the *point* — it alerts you to needed tutorial updates); may need to run on a schedule (e.g., daily) rather than per-PR to avoid flaky failures blocking development.
+- **Cons**: Requires Claude account credentials in CI; fragile when Anthropic changes their UI (but that fragility is the **point** — it alerts you to needed tutorial updates); may need to run on a schedule (e.g., daily) rather than per-PR to avoid flaky failures blocking development.
 
 #### 2. Functional correctness — does configuring the Kilotest MCP connector actually result in tool use?
 
@@ -137,6 +137,7 @@ Given the project's minimalist philosophy, I'd recommend a layered approach, sta
 #### 4. A complementary static approach
 
 Regardless of the above, you could add a **tutorial content lint** — a test that parses `tutorial.html` and verifies:
+
 - All referenced URLs (e.g., `https://claude.ai/login`, `https://kilotest.com/mcp`) return 200 responses.
 - The Kilotest MCP URL in the tutorial matches the one actually being tested.
 - UI labels mentioned in the text are internally consistent.
@@ -186,7 +187,7 @@ All of these can, in principle, read a tutorial page, parse its instructions, na
 
 The tutorial at `@/Users/pool/Documents/Topics/repos/a11yTesting/qai/public/tutorial.html:33` instructs the user to navigate to `https://claude.ai/login` and create an account via Google or email. This is the hard part:
 
-- **Authentication is the primary barrier.** Google OAuth flows, email verification, and CAPTCHAs are deliberately designed to block automated agents. Computer-use agents can handle simple login forms with stored credentials, but account *creation* with OAuth or email verification is a significant challenge.
+- **Authentication is the primary barrier.** Google OAuth flows, email verification, and CAPTCHAs are deliberately designed to block automated agents. Computer-use agents can handle simple login forms with stored credentials, but account **creation** with OAuth or email verification is a significant challenge.
 - **Dynamic UI navigation is feasible but fragile.** The multi-step click sequence (Customize → Connectors → Add custom connector → fill form → submit) is within current agent capabilities, but claude.ai's UI is dynamic and may render differently than a screenshot-based agent expects.
 - **Verifying tool use in the response** is the easiest part — an agent can read the response text and determine whether Kilotest tools were invoked.
 
@@ -204,7 +205,7 @@ This is achievable today, though with some flakiness. The fully autonomous versi
 
 #### Relevance to your testing strategy
 
-This is actually a **third approach** to tutorial-correctness testing that I didn't mention earlier: instead of writing a Playwright script that hard-codes the tutorial steps, you could use a computer-use agent that *reads the tutorial and decides for itself what steps to take*. The advantage is that the test would break not just when the UI changes, but when the *tutorial instructions themselves* become ambiguous or insufficient for an agent to follow — which is a proxy for whether a human could follow them too.
+This is actually a **third approach** to tutorial-correctness testing that I didn't mention earlier: instead of writing a Playwright script that hard-codes the tutorial steps, you could use a computer-use agent that **reads the tutorial and decides for itself what steps to take**. The advantage is that the test would break not just when the UI changes, but when the **tutorial instructions themselves** become ambiguous or insufficient for an agent to follow — which is a proxy for whether a human could follow them too.
 
 The disadvantage is cost (each run consumes LLM tokens), flakiness (agent behavior is non-deterministic), and the authentication barrier. But this approach is more aligned with your project's mission: if an AI agent can't follow your tutorial, that's a strong signal that a nontechnical human will struggle too.
 
@@ -217,3 +218,121 @@ The disadvantage is cost (each run consumes LLM tokens), flakiness (agent behavi
 - Does the work complete an existing capability or begin an unrelated feature? It partly completes an existing capability. It does not complete the alerting part of that capability.
 - What existing behavior must remain unchanged? All existing behaviors except the instructions stating that the comment form is not yet operational.
 - What new behavior must be verified after the work is complete? The correct updating of the comments file whenever a comment is submitted.
+
+## Part 3: Designing test cases
+
+Behavior to be tested: Following the comment link on the tutorial page.
+
+Test cases:
+
+- Normal: Comment page appears when the client requests the link destination.
+- Edge: Client appends a `/` to the URL, but the comment page still appears.
+- Failure: Client requests a misspelled URL. The server returns a 404 error.
+
+In all cases, the test is an automated stateless unit test that starts a new server instance and then makes a request to it. Each test is occasionally replicated by a human user for confidence in the test-automation methods being employed.
+
+## Part 4: AI-generated tests
+
+The recommended progress in this part presupposes the absence of a test suite. QAI already has an extensive test suite. Therefore, I have created a different use of AI assistance for testing.
+
+### layer 1
+
+The LLM had proposed “an automated test that the Kilotest MCP URL (`https://kilotest.com/mcp`) is reachable and responds to a standard MCP handshake”. I submitted this prompt: “Please draft a layer-1 test that would be added to `src/requestHandler.test.ts`.” The LLM supplied a draft but advised that it should be located in a new module instead. I accepted that advice and asked for a corresponding draft. The LLM provided a draft of a new module:
+
+```typescript
+// src/tutorial.test.ts
+
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {join, dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {parse} from 'node-html-parser';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const getTutorialHTML = async (): Promise<string> => {
+  const filePath = join(__dirname, '..', 'public', 'tutorial.html');
+  return readFile(filePath, 'utf-8');
+};
+
+test('Kilotest MCP URL in tutorial is reachable and responds to initialize handshake', async () => {
+  const html = await getTutorialHTML();
+  const root = parse(html);
+  const codeElements = root.querySelectorAll('code');
+  const mcpUrl = codeElements
+    .map(el => el.textContent.trim())
+    .find(text => text.startsWith('https://kilotest.com/mcp'));
+  assert.ok(mcpUrl, 'Tutorial contains the Kilotest MCP URL');
+  const response = await fetch(mcpUrl!, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/event-stream'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'initialize',
+      params: {
+        protocolVersion: '2025-03-26',
+        capabilities: {},
+        clientInfo: {
+          name: 'qai-test',
+          version: '0.1.0'
+        }
+      }
+    }),
+    signal: AbortSignal.timeout(10000)
+  });
+  assert.equal(response.status, 200);
+  const contentType = response.headers.get('content-type') ?? '';
+  let bodyText: string;
+  if (contentType.includes('text/event-stream')) {
+    const text = await response.text();
+    const dataLine = text.split('\n').find(line => line.startsWith('data:'));
+    assert.ok(dataLine, 'SSE response contains a data line');
+    bodyText = dataLine!.slice(5).trim();
+  } else {
+    bodyText = await response.text();
+  }
+  const payload = JSON.parse(bodyText) as {
+    jsonrpc: string;
+    id: number;
+    result: {
+      protocolVersion: string;
+      serverInfo: {name: string};
+    };
+  };
+  assert.equal(payload.jsonrpc, '2.0');
+  assert.equal(payload.id, 1);
+  assert.ok(payload.result, 'Response contains a result');
+  assert.ok(payload.result.protocolVersion, 'Result contains protocolVersion');
+  assert.ok(payload.result.serverInfo, 'Result contains serverInfo');
+});
+```
+
+The LLM added:
+
+#### Design notes
+
+- **Extracts the URL from `tutorial.html`** rather than hard-coding it. If the tutorial's URL changes, the test checks the new URL automatically. If the URL is removed entirely, the test fails with a clear assertion message.
+- **No server dependency**: Unlike the [requestHandler.test.ts](cci:7://file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.test.ts:0:0-0:0) tests, this test reads the HTML file directly from disk — no need to start the server.
+- **Imports**: Uses `node:test`, `node:assert/strict`, `node:fs/promises`, `node:path`, `node:url`, and `node-html-parser` — all already in your dependency tree.
+- **Coverage**: This file won't count toward the c8 coverage of `requestHandler.ts` or `util.ts`, which is correct — it tests tutorial content, not server code. Your c8 config targets `--check-coverage` globally, but c8 only measures files that are imported during the test run, so this file's lack of coverage impact on source files is fine.
+
+#### What to verify after adding
+
+Run `npm test` and confirm:
+
+1. The new test passes (assuming Kilotest is online).
+2. The existing 10 tests still pass.
+3. c8 coverage reporting still shows 100% for `requestHandler.ts` and `util.ts`.
+
+#### Critique
+
+A critique of the proposal will require study of the protocols and functions in it that are not yet familiar to me. That study is next on my agenda.
+
+## Studio conclusion
+
+The scheduled studio has ended during Part 4, with Part 4 incomplete. Parts 5, 6, and 7 have not yet begun. The incomplete work remains to be performed during Sprint 4.
