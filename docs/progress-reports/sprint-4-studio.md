@@ -235,7 +235,7 @@ In all cases, the test is an automated stateless unit test that starts a new ser
 
 The recommended progress in this part presupposes the absence of a test suite. QAI already has an extensive test suite. Therefore, I have created a different use of AI assistance for testing.
 
-### layer 1
+### AI proposal
 
 The LLM had proposed “an automated test that the Kilotest MCP URL (`https://kilotest.com/mcp`) is reachable and responds to a standard MCP handshake”. I submitted this prompt: “Please draft a layer-1 test that would be added to `src/requestHandler.test.ts`.” The LLM supplied a draft but advised that it should be located in a new module instead. I accepted that advice and asked for a corresponding draft. The LLM provided a draft of a new module:
 
@@ -312,9 +312,7 @@ test('Kilotest MCP URL in tutorial is reachable and responds to initialize hands
 });
 ```
 
-The LLM added:
-
-#### Design notes
+The LLM added these design notes:
 
 - **Extracts the URL from `tutorial.html`** rather than hard-coding it. If the tutorial's URL changes, the test checks the new URL automatically. If the URL is removed entirely, the test fails with a clear assertion message.
 - **No server dependency**: Unlike the [requestHandler.test.ts](cci:7://file:///Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.test.ts:0:0-0:0) tests, this test reads the HTML file directly from disk — no need to start the server.
