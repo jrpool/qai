@@ -20,35 +20,27 @@ after(() => new Promise<void>(resolve => {
   server.close(() => resolve());
 }));
 
-test('GET request to root (/) gets status 200', async () => {
-  const response = await fetch(`http://localhost:${port}/`);
-  assert.equal(response.status, 200);
-});
-
-test('GET request to comments page (/comments) gets status 200', async () => {
-  const response = await fetch(`http://localhost:${port}/comments`);
-  assert.equal(response.status, 200);
-});
-
 test('GET request to bad path (/blah) gets status 404', async () => {
   const response = await fetch(`http://localhost:${port}/blah`);
   assert.equal(response.status, 404);
 });
 
-test('GET request to root (/) gets tutorial page', async () => {
+test('GET request to root (/) gets status 200 and tutorial page', async () => {
   const response = await fetch(`http://localhost:${port}/`);
   const html = await response.text();
   const root = parse(html);
   const title = root.querySelector('title');
+  assert.equal(response.status, 200);
   assert.equal(title?.textContent, 'Tutorial | QAI');
   assert.match(html, /This tutorial shows you how/);
 });
 
-test('GET request to comments page (/comments) gets comments page', async () => {
+test('GET request to comments page (/comments) gets status 200 and comments page', async () => {
   const response = await fetch(`http://localhost:${port}/comments`);
   const html = await response.text();
   const root = parse(html);
   const title = root.querySelector('title');
+  assert.equal(response.status, 200);
   assert.equal(title?.textContent, 'Comments | QAI');
   assert.match(html, /Please comment by submitting a comment with this form/);
 });
@@ -73,18 +65,43 @@ test('GET request to route with unknown content type gets status 500', async tes
 });
 
 test(
-  'compliant POST request to comment handler (/comment) gets thanks page',
-  async () => {
+  'compliant POST request to comment handler (/comment) records comment and serves thanks page',
+  async testContext => {
+    const writeFileCalls: {path: string; data: string}[] = [];
+    const readFileMock = testContext.mock.method(
+      await import('node:fs/promises'),
+      'readFile',
+      async () => Buffer.from('[]')
+    );
+    const writeFileMock = testContext.mock.method(
+      await import('node:fs/promises'),
+      'writeFile',
+      async (path: string, data: string) => {
+        writeFileCalls.push({path, data});
+      }
+    );
+    const submittedComment = 'I want a similar tutorial for the ABCXYZ AI platform.';
     const response = await fetch(`http://localhost:${port}/comment`, {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: 'comment=I want a similar tutorial for the ABCXYZ AI platform.'
+      body: `comment=${encodeURIComponent(submittedComment)}`
     });
-    const html = await response.text();
+    assert.equal(response.status, 303);
+    assert.equal(response.headers.get('location'), '/comment-ack');
+    assert.equal(writeFileCalls.length, 1);
+    const comments = JSON.parse(writeFileCalls[0].data);
+    assert.equal(comments.length, 1);
+    assert.match(comments[0].dateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    assert.equal(comments[0].content, submittedComment);
+    const ackResponse = await fetch(`http://localhost:${port}/comment-ack`);
+    assert.equal(ackResponse.status, 200);
+    const html = await ackResponse.text();
     const root = parse(html);
     const title = root.querySelector('title');
     assert.equal(title?.textContent, 'Thank you for your comment | QAI');
     assert.match(html, /and the QAI maintainer has been notified/);
     assert.match(html, /I want a similar tutorial for the ABCXYZ AI platform\./);
+    readFileMock.mock.restore();
+    writeFileMock.mock.restore();
   }
 );
