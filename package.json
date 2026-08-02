@@ -1,7 +1,10 @@
 {
   "name": "qai",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=24.4.0"
+  },
   "scripts": {
     "check": "npm run typecheck && npm run hint && npm run lint && npm test",
     "hint": "htmlhint public/*.html",
