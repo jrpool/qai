@@ -38,7 +38,9 @@ export const handler = async (req: IncomingMessage, res: ServerResponse) => {
     const contentType = contentTypeMap[file.split('.').pop()!] || '';
     // If this failed:
     if (! contentType) {
-      handleError(res, `Server failed to serve ${url} (${file}) because its content type is unknown`, 500);
+      handleError(
+        res, `Server failed to serve ${url} (${file}) because its content type is unknown`, 500
+      );
       return;
     }
     // Otherwise, i.e. if it succeeded, get the file content.

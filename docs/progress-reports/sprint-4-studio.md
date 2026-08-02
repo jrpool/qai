@@ -319,18 +319,49 @@ The LLM added these design notes:
 - **Imports**: Uses `node:test`, `node:assert/strict`, `node:fs/promises`, `node:path`, `node:url`, and `node-html-parser` — all already in your dependency tree.
 - **Coverage**: This file won't count toward the c8 coverage of `requestHandler.ts` or `util.ts`, which is correct — it tests tutorial content, not server code. Your c8 config targets `--check-coverage` globally, but c8 only measures files that are imported during the test run, so this file's lack of coverage impact on source files is fine.
 
-#### What to verify after adding
+### What to verify after adding
 
-Run `npm test` and confirm:
+If the proposed test is added, I can verify it by running `npm test` and confirming:
 
 1. The new test passes (assuming Kilotest is online).
 2. The existing 10 tests still pass.
 3. c8 coverage reporting still shows 100% for `requestHandler.ts` and `util.ts`.
 
-#### Critique
+### Critique
 
-A critique of the proposal will require study of the protocols and functions in it that are not yet familiar to me. That study is next on my agenda.
+My initial critique of the proposal is this: The proposed test reads and parses the tutorial page as a file. This is intended to make the test immune to changes in the URL of the page, but it does not make the test immune to a change of the file name or file location in the filesystem, or to changes in the MCP server URL disclosed by the page. It seems unwise to me to try to make unit tests immune to changes in the codebase. Codebase changes can be expected to require test changes.
 
-## Studio conclusion
+This critique seems fundamental. Therefore, I choose not to add the proposed test, but instead to extend the conversation with the LLM during Sprint 5 to understand the rationale for the proposal and make a well-informed decision on it.
 
-The scheduled studio has ended during Part 4, with Part 4 incomplete. Parts 5, 6, and 7 have not yet begun. The incomplete work remains to be performed during Sprint 4.
+## Part 5: Investigating a failing test
+
+One test in `src/requestHandler.test.ts` verifies that the applicationn returns a 404 status error if the path is invalid. The test submits a request with an invalid path. If that path becomes valid, the test will fail with this message:
+
+```text
+✖ failing tests:
+
+test at src/requestHandler.test.ts:33:1
+✖ GET request to bad path (/blah) gets status 404 (1.751708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  200 !== 404
+```
+
+That message will identify the failing test and permit a correction of the test.
+
+## Part 6: Refactoring with a safety net
+
+I obtained AI assistance in identifying candidates for refactoring. The recommended top candidate was the `handler` function in the `requestHandler.ts` file. That function “mixes routing, content-type resolution, file I/O, and response writing”. The LLM recommended creating “separate resolveContentType(file) and serveFile(res, file) helpers”. The benefits of such a refactoring were described as including more granular testability and less error-vulnerable code.
+
+## Part 7: Build a Sprint 4 quality plan
+
+1. Capability: Make the comments page a working, submittable form whose submission updates a comments file.
+2. Existing behavior: The tutorial and comments pages must continue to be rendered on request.
+3. New behavior: The comments page must accept form submissions and update the comments file.
+4. Automated tests: The best evidence of success will be passed tests of:
+   - Content of the comments page
+   - Content of the acknowledgement of the submission of the comment form
+   - Correct updating of the comments file upon submission of the comment form
+5. Manual verification: A user will visit the tutorial page, follow the link to the comments page, and submit a comment. The comments file will be inspected before and after the submission.
+6. AI assistance for the added functionalities and tests will be obtained and scrutinized.
+7. The AI advice on refactoring will be reviewed after the additional tests have been added and then implemented, if approved, for the enhanced codebase.
