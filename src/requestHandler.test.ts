@@ -35,20 +35,22 @@ test('GET request to bad path (/blah) gets status 404', async () => {
   assert.equal(response.status, 404);
 });
 
-test('GET request to root (/) gets tutorial title', async () => {
+test('GET request to root (/) gets tutorial page', async () => {
   const response = await fetch(`http://localhost:${port}/`);
   const html = await response.text();
   const root = parse(html);
   const title = root.querySelector('title');
   assert.equal(title?.textContent, 'Tutorial | QAI');
+  assert.match(html, /This tutorial shows you how/);
 });
 
-test('GET request to comments page (/comments) gets comments title', async () => {
+test('GET request to comments page (/comments) gets comments page', async () => {
   const response = await fetch(`http://localhost:${port}/comments`);
   const html = await response.text();
   const root = parse(html);
   const title = root.querySelector('title');
   assert.equal(title?.textContent, 'Comments | QAI');
+  assert.match(html, /Please comment by submitting a comment with this form/);
 });
 
 test('GET request to root (/) if file unreadable gets status 500', async testContext => {
@@ -69,3 +71,20 @@ test('GET request to route with unknown content type gets status 500', async tes
   );
   propertyMock.mock.restore();
 });
+
+test(
+  'compliant POST request to comment handler (/comment) gets thanks page',
+  async () => {
+    const response = await fetch(`http://localhost:${port}/comment`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'comment=I want a similar tutorial for the ABCXYZ AI platform.'
+    });
+    const html = await response.text();
+    const root = parse(html);
+    const title = root.querySelector('title');
+    assert.equal(title?.textContent, 'Thank you for your comment | QAI');
+    assert.match(html, /and the QAI maintainer has been notified/);
+    assert.match(html, /I want a similar tutorial for the ABCXYZ AI platform\./);
+  }
+);

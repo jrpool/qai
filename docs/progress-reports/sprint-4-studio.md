@@ -353,6 +353,31 @@ That message will identify the failing test and permit a correction of the test.
 
 I obtained AI assistance in identifying candidates for refactoring. The recommended top candidate was the `handler` function in the `requestHandler.ts` file. That function “mixes routing, content-type resolution, file I/O, and response writing”. The LLM recommended creating “separate resolveContentType(file) and serveFile(res, file) helpers”. The benefits of such a refactoring were described as including more granular testability and less error-vulnerable code.
 
+The candidates described by the LLM, in descending order of estimated impact, were:
+
+1. **Split `handler` into single-responsibility helpers.**
+   `requestHandler.ts` currently mixes routing, content-type resolution, file I/O, and response writing in one function. The `file.split('.').pop()!` lookup and the `readFile`/`writeHead`/`.end` block are good candidates for separate `resolveContentType(file)` and `serveFile(res, file)` helpers. That also removes the non-null `!` and makes the extension logic unit-testable.
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.ts" lines="29-56" />
+
+2. **Unify response handling between success and error paths.**
+   `handleError` in `util.ts` calls `res.writeHead(statusCode)` with no `Content-Type`, while the success path sets one. A shared `sendResponse(res, statusCode, body, contentType)` helper, or at least adding `text/plain` to errors, would make the two paths consistent and easier to extend.
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/util.ts" lines="34-41" />
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.ts" lines="48-51" />
+
+3. **Extract the public directory to a named constant.**
+   `join(__dirname, '..', 'public', file)` is computed inline. A `PUBLIC_DIR` constant at the top of `requestHandler.ts` would make the file-serving intent clearer and the path easier to change.
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.ts" lines="11-18" />
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.ts" lines="47-48" />
+
+4. **Reduce repetition in `requestHandler.test.ts`.**
+   The status and title tests for `/` and `/comments` repeat the same `fetch`/`parse`/`querySelector` sequence. A `getTitle(path)` helper would collapse the four near-identical test cases.
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/src/requestHandler.test.ts" lines="23-52" />
+
+5. **HTML `<head>` duplication.**
+   `tutorial.html` and `comments.html` share an identical `<head>` block and surrounding page structure. If the site grows beyond two pages, a shared template/partial would reduce that duplication.
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/public/tutorial.html" lines="1-13" />
+   <ref_snippet file="/Users/pool/Documents/Topics/repos/a11yTesting/qai/public/comments.html" lines="1-13" />
+
 ## Part 7: Build a Sprint 4 quality plan
 
 1. Capability: Make the comments page a working, submittable form whose submission updates a comments file.
