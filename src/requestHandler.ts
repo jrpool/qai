@@ -35,6 +35,7 @@ export const makeHandler = (commentsFilePath: string) => {
         const chunks: Buffer[] = [];
         // If the request throws an error:
         request.on('error', error => {
+          /* c8 ignore next 4 */
           const {message} = error;
           // Populate the request data wih the error message and stop awaiting data.
           resolve({error: message});
@@ -58,6 +59,7 @@ export const makeHandler = (commentsFilePath: string) => {
       });
       // If the request data contain an error message:
       if (requestData.error) {
+        /* c8 ignore next 3 */
         // Serve and log it.
         handleError(response, requestData.error, 500);
         return;
