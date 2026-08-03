@@ -12,5 +12,8 @@ node_modules/
 # Testing
 coverage/
 
+# Database
+db/
+
 # OS files
 .DS_Store
