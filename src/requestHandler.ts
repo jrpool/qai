@@ -77,26 +77,34 @@ export const makeHandler = (commentsFilePath: string) => {
         }
         // Otherwise, i.e. if its length is valid, ensure the database directory exists.
         await mkdir(dirname(commentsFilePath), {recursive: true});
-        // Get the comments file from it.
-        const commentsJSON = await readFile(commentsFilePath, 'utf8') ?? '[]';
-        // Parse the comments.
-        const comments = JSON.parse(commentsJSON);
-        // Get the comments submitted within the last 1000 seconds.
-        const duplicates = comments.filter((commentData: {
-          dateTime: string,
-          comment: string
-        }) => Number(commentData.dateTime) < Date.now() - 1000000)
-        .filter((commentData: {
-          dateTime: string,
-          comment: string
-        }) => commentData.comment === comment);
-        // If the comment duplicates a recent one:
-        if (duplicates.length) {
-          // Serve and log this.
-          handleError(response, 'Your comment repeats a recently submitted one, but you are welcome to submit a different comment', 422);
-          return;
+        let comments;
+        try {
+          // Get the comments file from it, if any.
+          const commentsJSON = await readFile(commentsFilePath, 'utf8') ?? '[]';
+          // Parse the comments.
+          comments = JSON.parse(commentsJSON);
+          // Get the comments submitted within the last 1000 seconds.
+          const duplicates = comments.filter((commentData: {
+            dateTime: string,
+            comment: string
+          }) => Number(commentData.dateTime) < Date.now() - 1000000)
+          .filter((commentData: {
+            dateTime: string,
+            comment: string
+          }) => commentData.comment === comment);
+          // If the comment duplicates a recent one:
+          if (duplicates.length) {
+            // Serve and log this.
+            handleError(response, 'Your comment repeats a recently submitted one, but you are welcome to submit a different comment', 422);
+            return;
+          }
         }
-        // Otherwise, i.e. if it is not a duplicate, add the new comment to the comments.
+        // If there is no comments file:
+        catch {
+          // Initialize the comments as empty.
+          comments = [];
+        }
+        // If the comment is not a duplicate, add the new comment to any existing comments.
         comments.push(requestData.comment);
         try {
           // Save them.
