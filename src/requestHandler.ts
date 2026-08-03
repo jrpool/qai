@@ -86,12 +86,12 @@ export const makeHandler = (commentsFilePath: string) => {
           // Get the comments submitted within the last 1000 seconds.
           const duplicates = comments.filter((commentData: {
             dateTime: string,
-            comment: string
-          }) => Number(commentData.dateTime) < Date.now() - 1000000)
+            content: string
+          }) => new Date(commentData.dateTime).getTime() > Date.now() - 1000000)
           .filter((commentData: {
             dateTime: string,
-            comment: string
-          }) => commentData.comment === comment);
+            content: string
+          }) => commentData.content === comment);
           // If the comment duplicates a recent one:
           if (duplicates.length) {
             // Serve and log this.
@@ -99,22 +99,31 @@ export const makeHandler = (commentsFilePath: string) => {
             return;
           }
         }
-        // If there is no comments file:
-        catch {
-          // Initialize the comments as empty.
-          comments = [];
+        // If processing the comments file fails:
+        catch (error) {
+          // If the cause is that the file does not exist:
+          if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+            // Initialize the comments as empty.
+            comments = [];
+          }
+          // Otherwise, i.e. if the cause is anything else:
+          else {
+            // Serve and log this and stop responding.
+            handleError(response, 'Your comment was valid but could not be recorded for an unknown reason, so please submit a GitHub issue instead', 500);
+            return;
+          }
         }
         // If the comment is not a duplicate, add the new comment to any existing comments.
         comments.push({
           dateTime: new Date().toISOString(),
-          comment: requestData.comment
+          content: requestData.comment
         });
         try {
           // Save them.
           await writeFile(commentsFilePath, JSON.stringify(comments, null, 2));
         }
         // If this fails:
-        catch (error) {
+        catch {
           // Serve and log this.
           handleError(
             response,

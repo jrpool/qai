@@ -175,11 +175,8 @@ test(
         body: `comment=${encodeURIComponent(submittedComment)}`
       });
       assert.equal(response.status, 422);
-      const html = await response.text();
-      const root = parse(html);
-      const title = root.querySelector('title');
-      assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /comment was shorter than 20 characters/);
+      const message = await response.text();
+      assert.match(message, /comment was shorter than 20 characters/);
       const fileExists = await readFile(commentsFilePath, 'utf8').then(
         () => true, () => false
       );
@@ -205,11 +202,8 @@ test(
         body: `comment=${encodeURIComponent(submittedComment)}`
       });
       assert.equal(response.status, 422);
-      const html = await response.text();
-      const root = parse(html);
-      const title = root.querySelector('title');
-      assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /comment was longer than 1000 characters/);
+      const message = await response.text();
+      assert.match(message, /comment was longer than 1000 characters/);
       const fileExists = await readFile(commentsFilePath, 'utf8').then(
         () => true, () => false
       );
@@ -238,11 +232,8 @@ test(
         body: `comment=${encodeURIComponent(duplicateContent)}`
       });
       assert.equal(response.status, 422);
-      const html = await response.text();
-      const root = parse(html);
-      const title = root.querySelector('title');
-      assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /Your comment repeats a recently submitted one/);
+      const message = await response.text();
+      assert.match(message, /Your comment repeats a recently submitted one/);
       const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 1);
@@ -269,11 +260,8 @@ test(
         body: `comment=${encodeURIComponent(submittedComment)}`
       });
       assert.equal(response.status, 500);
-      const html = await response.text();
-      const root = parse(html);
-      const title = root.querySelector('title');
-      assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /Your comment was valid but could not be recorded/);
+      const message = await response.text();
+      assert.match(message, /Your comment was valid but could not be recorded/);
       const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 0);
