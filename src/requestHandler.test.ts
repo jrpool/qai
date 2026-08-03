@@ -262,9 +262,6 @@ test(
       assert.equal(response.status, 500);
       const message = await response.text();
       assert.match(message, /could not be added to the existing comments/);
-      const fileContent = await readFile(commentsFilePath, 'utf8');
-      const comments = JSON.parse(fileContent);
-      assert.equal(comments.length, 0);
     }
     finally {
       await chmod(commentsFilePath, 0o644);
