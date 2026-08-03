@@ -77,7 +77,7 @@ test('GET request to root (/) if file unreadable gets status 500', async testCon
   const response = await fetch(`http://localhost:${port}/`);
   assert.equal(response.status, 500);
   const body = await response.text();
-  assert.match(body, /this server cannot serve the page/);
+  assert.match(body, /tried to serve the page, but this failed/);
   propertyMock.mock.restore();
 });
 
@@ -86,7 +86,7 @@ test('GET request to route with unknown content type gets status 500', async tes
   const response = await fetch(`http://localhost:${port}/`);
   assert.equal(response.status, 500);
   const body = await response.text();
-  assert.match(body, /valid, but this server cannot serve the page/);
+  assert.match(body, /does not have the information it needs/);
   propertyMock.mock.restore();
 });
 
