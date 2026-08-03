@@ -162,7 +162,7 @@ test(
 );
 
 test(
-  'POST with comment shorter than 20 characters gets 422 and error page',
+  'POST with comment shorter than 20 characters gets 422 and error message',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
@@ -189,7 +189,7 @@ test(
 );
 
 test(
-  'POST with comment longer than 1000 characters gets 422 and error page',
+  'POST with comment longer than 1000 characters gets 422 and error message',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
@@ -216,7 +216,7 @@ test(
 );
 
 test(
-  'POST with comment identical to a recent entry gets 422 and error page',
+  'POST with comment identical to a recent entry gets 422 and error message',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
@@ -245,7 +245,36 @@ test(
 );
 
 test(
-  'POST with valid comment when comments file is not writable gets 500 and error page',
+  'POST with valid comment when comments file is not readable gets 500 and error message',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    await writeFile(commentsFilePath, '[]', 'utf8');
+    await chmod(commentsFilePath, 0o000);
+    const {server, port} = await setServerUp(commentsFilePath);
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 500);
+      const message = await response.text();
+      assert.match(message, /could not be added to the existing comments/);
+      const fileContent = await readFile(commentsFilePath, 'utf8');
+      const comments = JSON.parse(fileContent);
+      assert.equal(comments.length, 0);
+    }
+    finally {
+      await chmod(commentsFilePath, 0o644);
+      await tearServerDown(server);
+    }
+  }
+);
+
+test(
+  'POST with valid comment when comments file is not writable gets 500 and error message',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
@@ -261,7 +290,35 @@ test(
       });
       assert.equal(response.status, 500);
       const message = await response.text();
-      assert.match(message, /Your comment was valid but could not be recorded/);
+      assert.match(message, /could not be recorded/);
+      const fileContent = await readFile(commentsFilePath, 'utf8');
+      const comments = JSON.parse(fileContent);
+      assert.equal(comments.length, 0);
+    }
+    finally {
+      await chmod(commentsFilePath, 0o644);
+      await tearServerDown(server);
+    }
+  }
+);
+
+test(
+  'POST with no comment field gets 500 and error message',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    await writeFile(commentsFilePath, '[]', 'utf8');
+    const {server, port} = await setServerUp(commentsFilePath);
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `noncomment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 500);
+      const message = await response.text();
+      assert.match(message, /could not be obtained/);
       const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 0);

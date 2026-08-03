@@ -109,7 +109,7 @@ export const makeHandler = (commentsFilePath: string) => {
           // Otherwise, i.e. if the cause is anything else:
           else {
             // Serve and log this and stop responding.
-            handleError(response, 'Your comment was valid but could not be recorded for an unknown reason, so please submit a GitHub issue instead', 500);
+            handleError(response, 'Your comment was valid but could not be added to the existing comments for an unknown reason, so please submit a GitHub issue instead', 500);
             return;
           }
         }
@@ -127,7 +127,7 @@ export const makeHandler = (commentsFilePath: string) => {
           // Serve and log this.
           handleError(
             response,
-            'Your comment was valid but could not be recorded for an unknown reason, so please submit a GitHub issue instead',
+            'Your comment was valid and was added to the existing comments but could not be recorded for an unknown reason, so please submit a GitHub issue instead',
             500
           );
           return;
@@ -145,7 +145,7 @@ export const makeHandler = (commentsFilePath: string) => {
       // Otherwise, i.e. if they are invalid:
       else {
         // Serve and log this.
-        handleError(response, 'Your submission could not be processed for an unknown reason, so please submit a GitHub issue instead', 500);
+        handleError(response, 'Your comment could not be obtained from your submission for an unknown reason, so please submit a GitHub issue instead', 500);
       }
       return;
     }
@@ -166,7 +166,7 @@ export const makeHandler = (commentsFilePath: string) => {
       if (! contentType) {
         // Serve and log this.
         handleError(
-          response, `Your request is valid, but this server cannot serve the page`, 500
+          response, `Your request is valid, but this server does not have the information it needs to serve the page`, 500
         );
         return;
       }
@@ -180,7 +180,7 @@ export const makeHandler = (commentsFilePath: string) => {
     catch {
       handleError(
         response,
-        'Your request was valid, but this server cannot serve the page for an unknown reason',
+        'Your request was valid and the server tried to serve the page, but this failed for an unknown reason',
         500
       );
     }
