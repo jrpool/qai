@@ -82,7 +82,7 @@ export const makeHandler = (commentsFilePath: string) => {
         let comments;
         try {
           // Get the comments file from it, if any.
-          const commentsJSON = await readFile(commentsFilePath, 'utf8') ?? '[]';
+          const commentsJSON = await readFile(commentsFilePath, 'utf8');
           // Parse the comments.
           comments = JSON.parse(commentsJSON);
           // Get the comments submitted within the last 1000 seconds.
