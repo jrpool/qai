@@ -11,7 +11,7 @@ The assistance has been incremental rather than comprehensive. This means that:
 - After each such definition has been drafted, the developer has requested AI review and has made revisions on the basis of review results.
 - The developer has not asked any AI platform to undertake any such definition draft from its beginning.
 
-In all cases, the developer has invoked “Ask” mode and not “Code” mode while obtaining AI assistance. Nonetheless, the developer has in some cases, after scrutiny, copied code proposals made by AI platforms and pasted them into the codebase.
+In all cases, the developer has invoked “Ask” mode and not “Code” mode while obtaining AI assistance. Nonetheless, the developer has in numerous cases, after scrutiny, copied code proposals made by AI platforms and pasted them into the codebase.
 
 ## AI engineering review
 
