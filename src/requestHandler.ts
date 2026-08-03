@@ -33,7 +33,7 @@ export const makeHandler = (commentsFilePath: string) => {
       const requestData: {error?: string; comment?: string} = await new Promise(resolve => {
         // Initialize an array of data from the response.
         const chunks: Buffer[] = [];
-        // If the request throws an error:
+        // If the request throws an error (not straightforwardly testable, so c8-exempt):
         request.on('error', error => {
           /* c8 ignore next 4 */
           const {message} = error;
@@ -57,7 +57,7 @@ export const makeHandler = (commentsFilePath: string) => {
           resolve({comment});
         });
       });
-      // If the request data contain an error message:
+      // If the request data contain an error message (occurs only in the above c8-exempt case):
       /* c8 ignore next 5 */
       if (requestData.error) {
         // Serve and log it.
