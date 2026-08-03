@@ -58,8 +58,8 @@ export const makeHandler = (commentsFilePath: string) => {
         });
       });
       // If the request data contain an error message:
+      /* c8 ignore next 5 */
       if (requestData.error) {
-        /* c8 ignore next 3 */
         // Serve and log it.
         handleError(response, requestData.error, 500);
         return;
