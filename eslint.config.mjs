@@ -14,7 +14,7 @@ export default [
       '@stylistic': stylistic
     },
     rules: {
-      '@stylistic/indent': ['error', 2],
+      '@stylistic/indent': ['error', 2, {MemberExpression: 'off'}],
       '@stylistic/block-spacing': ['error', 'never'],
       '@stylistic/object-curly-spacing': ['error', 'never']
     }

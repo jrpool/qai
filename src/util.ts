@@ -32,9 +32,9 @@ export const log = (
 };
 
 // Serves and logs an error.
-export const handleError = (res: ServerResponse, errorMessage: string, statusCode: number) => {
-  res.writeHead(statusCode);
-  res.end(errorMessage);
+export const handleError = (response: ServerResponse, errorMessage: string, statusCode: number) => {
+  response.writeHead(statusCode);
+  response.end(errorMessage);
   const type = statusCode >= 400 && statusCode < 500 ? 'userError' : 'systemError';
   const level = type === 'userError' ? 'info' : 'error';
   log(level, type, errorMessage, statusCode);

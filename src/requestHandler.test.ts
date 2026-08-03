@@ -49,7 +49,7 @@ test('GET request to bad path (/blah) gets status 404', async () => {
   const response = await fetch(`http://localhost:${port}/blah`);
   assert.equal(response.status, 404);
   const body = await response.text();
-  assert.match(body, /\/blah not found/);
+  assert.match(body, /\/blah is not a valid path/);
 });
 
 test('GET request to root (/) gets status 200 and tutorial page', async () => {
@@ -69,7 +69,7 @@ test('GET request to comments page (/comments) gets status 200 and comments page
   const title = root.querySelector('title');
   assert.equal(response.status, 200);
   assert.equal(title?.textContent, 'Comments | QAI');
-  assert.match(html, /Please comment by submitting a comment with this form/);
+  assert.match(html, /Please comment by submitting this form/);
 });
 
 test('GET request to root (/) if file unreadable gets status 500', async testContext => {
@@ -77,7 +77,7 @@ test('GET request to root (/) if file unreadable gets status 500', async testCon
   const response = await fetch(`http://localhost:${port}/`);
   assert.equal(response.status, 500);
   const body = await response.text();
-  assert.match(body, /Server failed to serve \/ \(nonexistent.html\)/);
+  assert.match(body, /this server cannot serve the page/);
   propertyMock.mock.restore();
 });
 
@@ -86,10 +86,7 @@ test('GET request to route with unknown content type gets status 500', async tes
   const response = await fetch(`http://localhost:${port}/`);
   assert.equal(response.status, 500);
   const body = await response.text();
-  assert.match(
-    body,
-    /Server failed to serve \/ \(unknown\.xyz\) because its content type is unknown/
-  );
+  assert.match(body, /valid, but this server cannot serve the page/);
   propertyMock.mock.restore();
 });
 
@@ -117,7 +114,7 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
-      assert.match(html, /maintainer has been notified/);
+      assert.match(html, /maintainer of QAI has been notified/);
       assert.ok(html.includes(submittedComment));
     }
     finally {
@@ -156,7 +153,7 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
-      assert.match(html, /maintainer has been notified/);
+      assert.match(html, /maintainer of QAI has been notified/);
       assert.ok(html.includes(submittedComment));
     }
     finally {
@@ -246,7 +243,7 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /comment is a duplicate/);
+      assert.match(html, /Your comment repeats a recently submitted one/);
       const fileContent = await readFile(commentsFile, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 1);
@@ -277,7 +274,7 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
-      assert.match(html, /A system error prevented your comment from being recorded. The maintainer has been notified. Please submit a GitHub issue instead./);
+      assert.match(html, /Your comment was valid but could not be recorded/);
       const fileContent = await readFile(commentsFile, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 0);
