@@ -158,7 +158,11 @@ export const makeHandler = (commentsFilePath: string) => {
       log('info', 'response', file, 200);
     }
     catch {
-      handleError(response, `Server failed to serve ${url} (${file})`, 500);
+      handleError(
+        response,
+        'Your request was valid, but this server cannot serve the page for an unknown reason',
+        500
+      );
     }
   };
 };
