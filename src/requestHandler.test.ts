@@ -120,7 +120,7 @@ test(
   'POST with valid comment and populated comments file appends comment and acknowledges',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
+    const commentsFilePath = join(dir.path, 'comments.json');
     const existingComments = [
       {
         dateTime: '2025-10-15T12:34:56.000Z',
@@ -131,8 +131,8 @@ test(
         content: 'This is another pre-existing test comment.'
       }
     ];
-    await writeFile(commentsFile, JSON.stringify(existingComments), 'utf8');
-    const {server, port} = await setServerUp(commentsFile);
+    await writeFile(commentsFilePath, JSON.stringify(existingComments), 'utf8');
+    const {server, port} = await setServerUp(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -141,7 +141,7 @@ test(
         body: `comment=${encodeURIComponent(submittedComment)}`
       });
       assert.equal(response.status, 200);
-      const fileContent = await readFile(commentsFile, 'utf8');
+      const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 3);
       assert.equal(comments[0].content, existingComments[0].content);
@@ -165,8 +165,8 @@ test(
   'POST with comment shorter than 20 characters gets 422 and error page',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
-    const {server, port} = await setServerUp(commentsFile);
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await setServerUp(commentsFilePath);
     try {
       const submittedComment = 'Too short.';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -180,7 +180,7 @@ test(
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
       assert.match(html, /comment was shorter than 20 characters/);
-      const fileExists = await readFile(commentsFile, 'utf8').then(
+      const fileExists = await readFile(commentsFilePath, 'utf8').then(
         () => true, () => false
       );
       assert.equal(fileExists, false);
@@ -195,8 +195,8 @@ test(
   'POST with comment longer than 1000 characters gets 422 and error page',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
-    const {server, port} = await setServerUp(commentsFile);
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await setServerUp(commentsFilePath);
     try {
       const submittedComment = 'x'.repeat(1001);
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -210,7 +210,7 @@ test(
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
       assert.match(html, /comment was longer than 1000 characters/);
-      const fileExists = await readFile(commentsFile, 'utf8').then(
+      const fileExists = await readFile(commentsFilePath, 'utf8').then(
         () => true, () => false
       );
       assert.equal(fileExists, false);
@@ -225,12 +225,12 @@ test(
   'POST with comment identical to a recent entry gets 422 and error page',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
+    const commentsFilePath = join(dir.path, 'comments.json');
     const recentTime = new Date().toISOString();
     const duplicateContent = 'This is a comment that will be submitted twice.';
     const existingComment = {dateTime: recentTime, content: duplicateContent};
-    await writeFile(commentsFile, JSON.stringify([existingComment]), 'utf8');
-    const {server, port} = await setServerUp(commentsFile);
+    await writeFile(commentsFilePath, JSON.stringify([existingComment]), 'utf8');
+    const {server, port} = await setServerUp(commentsFilePath);
     try {
       const response = await fetch(`http://localhost:${port}/comment`, {
         method: 'POST',
@@ -243,7 +243,7 @@ test(
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
       assert.match(html, /Your comment repeats a recently submitted one/);
-      const fileContent = await readFile(commentsFile, 'utf8');
+      const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 1);
     }
@@ -257,10 +257,10 @@ test(
   'POST with valid comment when comments file is not writable gets 500 and error page',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
-    await writeFile(commentsFile, '[]', 'utf8');
-    await chmod(commentsFile, 0o444);
-    const {server, port} = await setServerUp(commentsFile);
+    const commentsFilePath = join(dir.path, 'comments.json');
+    await writeFile(commentsFilePath, '[]', 'utf8');
+    await chmod(commentsFilePath, 0o444);
+    const {server, port} = await setServerUp(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -274,12 +274,12 @@ test(
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Error | QAI');
       assert.match(html, /Your comment was valid but could not be recorded/);
-      const fileContent = await readFile(commentsFile, 'utf8');
+      const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 0);
     }
     finally {
-      await chmod(commentsFile, 0o644);
+      await chmod(commentsFilePath, 0o644);
       await tearServerDown(server);
     }
   }
