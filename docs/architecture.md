@@ -16,6 +16,7 @@ The architecture of the current release, version 0.3.0, is an HTML website with 
 - Node.js server: modules that perform routing and request handling
 - Tutorial page: an HTML5 page containing the tutorial
 - Comment page: an HTML5 page containing the comment form, with submission disabled
+- Comment storage: persistent storage of comments submitted by users with the comment form
 - Monitoring service: an external service periodically monitoring QAI health
 - Environment file: a properties file storing environment variables
 - Type checker: a dependency used for TypeScript type checking
@@ -41,13 +42,12 @@ The architecture of the current release, version 0.3.0, is an HTML website with 
 
 ## Future components
 
-Components expected to be introduced in version 0.4.0:
+Components expected to be introduced in version 1.1.0:
 
-- Comment storage: persistent storage of comments submitted by users with the comment form
 - Application styling: a stylesheet defining styles other than browser defaults
 - Internal observability: logging, monitoring, and alerting of comment-submission events and errors
 
-Component expected to be introduced in version 0.5.0:
+Components expected to be introduced in version 2.0.0:
 
 - Tutorial enhancement: multi-platform tutorial content
 

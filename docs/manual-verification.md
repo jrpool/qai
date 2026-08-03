@@ -57,6 +57,8 @@ The developer has performed these verification procedures:
 - Observe that, without the tutorial instructions being followed, the same LLM on the same platform fails to use any specialized tool to answer the same questions.
 - Activate the link on the tutorial page to the comments page.
 - Observe that the comments page is rendered.
+- Complete and submit a comment.
+- Observe that the thank-you page is rendered and includes a copy of your comment.
 
 ## Expected results
 
