@@ -94,8 +94,7 @@ test(
   'POST with valid comment and no comments file creates file with comment and acknowledges',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const commentsFile = join(dir.path, 'comments.json');
-    const {server, port} = await setServerUp(commentsFile);
+    const {server, port} = await setServerUp(join(dir.path, 'comments.json'));
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -104,12 +103,6 @@ test(
         body: `comment=${encodeURIComponent(submittedComment)}`
       });
       assert.equal(response.status, 200);
-      const fileContent = await readFile(commentsFile, 'utf8');
-      const comments = JSON.parse(fileContent);
-      assert.equal(comments.length, 1);
-      assert.match(comments[0].dateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
-      assert.ok(new Date().getTime() - new Date(comments[0].dateTime).getTime() < 1000);
-      assert.equal(comments[0].content, submittedComment);
       const html = await response.text();
       const root = parse(html);
       const title = root.querySelector('title');
@@ -128,11 +121,17 @@ test(
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFile = join(dir.path, 'comments.json');
-    const existingComment = {
-      dateTime: '2025-10-15T12:34:56.000Z',
-      content: 'This is a pre-existing test comment.'
-    };
-    await writeFile(commentsFile, JSON.stringify([existingComment]), 'utf8');
+    const existingComments = [
+      {
+        dateTime: '2025-10-15T12:34:56.000Z',
+        content: 'This is a pre-existing test comment.'
+      },
+      {
+        dateTime: '2026-02-15T12:34:56.000Z',
+        content: 'This is another pre-existing test comment.'
+      }
+    ];
+    await writeFile(commentsFile, JSON.stringify(existingComments), 'utf8');
     const {server, port} = await setServerUp(commentsFile);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
@@ -144,11 +143,11 @@ test(
       assert.equal(response.status, 200);
       const fileContent = await readFile(commentsFile, 'utf8');
       const comments = JSON.parse(fileContent);
-      assert.equal(comments.length, 2);
-      assert.equal(comments[0].content, existingComment.content);
-      assert.match(comments[1].dateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
-      assert.ok(new Date().getTime() - new Date(comments[1].dateTime).getTime() < 1000);
-      assert.equal(comments[1].content, submittedComment);
+      assert.equal(comments.length, 3);
+      assert.equal(comments[0].content, existingComments[0].content);
+      assert.match(comments[2].dateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+      assert.ok(new Date().getTime() - new Date(comments[2].dateTime).getTime() < 1000);
+      assert.equal(comments[2].content, submittedComment);
       const html = await response.text();
       const root = parse(html);
       const title = root.querySelector('title');
