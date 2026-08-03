@@ -105,7 +105,10 @@ export const makeHandler = (commentsFilePath: string) => {
           comments = [];
         }
         // If the comment is not a duplicate, add the new comment to any existing comments.
-        comments.push(requestData.comment);
+        comments.push({
+          dateTime: new Date().toISOString(),
+          comment: requestData.comment
+        });
         try {
           // Save them.
           await writeFile(commentsFilePath, JSON.stringify(comments, null, 2));
