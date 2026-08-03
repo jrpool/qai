@@ -1,8 +1,10 @@
 import {createServer} from 'node:http';
 import {makeHandler} from './requestHandler.ts';
 import {log} from './util.ts';
-import {join} from 'node:path';
+import {join, dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT ?? 3001;
 
 // Create a server and make it listen for requests.
