@@ -159,30 +159,32 @@ export const makeHandler = (commentsFilePath: string) => {
       handleError(response, `${url} is not a valid path`, 404);
       return;
     }
+    // Otherwise, i.e. if there is a file path, get the file content type.
+    const contentType = contentTypeMap[file.split('.').pop()!] || '';
+    // If this failed:
+    if (! contentType) {
+      // Serve and log this.
+      handleError(
+        response, `Your request is valid, but this server does not have the information it needs to serve the page`, 500
+      );
+      return;
+    }
+    // Otherwise, i.e. if it succeeded, get the file content.
     try {
-      // Otherwise, i.e. if there is a file path, get the file content type.
-      const contentType = contentTypeMap[file.split('.').pop()!] || '';
-      // If this failed:
-      if (! contentType) {
-        // Serve and log this.
-        handleError(
-          response, `Your request is valid, but this server does not have the information it needs to serve the page`, 500
-        );
-        return;
-      }
-      // Otherwise, i.e. if it succeeded, get the file content.
       const contentBuffer = await readFile(join(__dirname, '..', 'public', file));
       // Serve it to the client.
       response.writeHead(200, {'Content-Type': contentType});
       response.end(contentBuffer);
       log('info', 'response', file, 200);
     }
+    // If this failed:
     catch {
+      // Serve and log this.
       handleError(
         response,
         'Your request was valid and the server tried to serve the page, but this failed for an unknown reason',
         500
       );
     }
-  };
+  }
 };
