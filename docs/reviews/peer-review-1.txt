@@ -1,0 +1,107 @@
+1. Repository Reviewed
+Repository Assignment: Repository B
+Student or project name: Jonathan Pool
+GitHub repository URL: https://github.com/jrpool/kilotest/blob/main/SERVICE.mdLinks to an external site. 
+Branch reviewed (Sprint 4 or latest committed sprint): Sprint 4
+Approximate date and time reviewed: August 9th @2PM
+2. Initial Understanding
+What the project does:
+
+QAI is an app that helps improve the answers from AI systems by connecting them with special tools. It includes a tutorial page, a comment submission page, and handles requests for those pages.
+
+Who or what it is intended to support:
+
+This app is for developers or AI integrators who want to link large language models with specific tools. It also helps maintainers who need a reliable way to deploy this guide.
+
+Primary workflow/capability currently implemented:
+
+The main features of the app are:
+
+- Providing a tutorial HTML page that explains how to connect AI with tools
+
+- Offering a page for submitting comments
+
+- Managing HTTP requests to those pages
+
+Clarity: The README is clear and summarizes the current features and next steps well. There is no major missing information.
+
+3. Repository Organization
+Evaluate whether the repository is organized clearly enough for another engineer to navigate.
+
+There aren’t too many different folders, and the zip file was easy to manage. 
+The important files were very easy to locate, as there weren’t too many other files that needed to be sorted through. 
+There were a few potentially “secret” files that were still visible, but they were definitely files connected to the project. 
+Separating the files based on which branch they are connected to and what files are more importantly connected to other files. 
+4. README and Run Instructions
+Purpose: The README explains that QAI is a guide to improve AI answers by connecting large language models (LLMs) to specific tools. It also describes what the app currently does.
+Prerequisites and Dependencies: The README mentions that you need Node.js and npm. It states that the dependencies are for development only, but it does not specify the Node.js version or list the exact packages needed.
+Setup and Run Instructions: It provides clear steps to run the app locally: install Node.js, run npm install, and then npm start. It also mentions running npm run check to perform checks.
+Expected Behavior: The README describes the tutorial page, comment page, request routing, checks, and the URLs for the deployed version.
+Current Limitations / Deferred Work: It lists upcoming features to implement, including alerts, achieving 100% coverage, and adding HTML error pages.
+Strength: The README is well-organized and gives a good overview of the project, its current status, and next steps.
+Improvement: The README should include more specific details about the environment, such as the supported Node.js version and a list of minimum package dependencies or a command to check them. This would help new users get started more easily.
+5. Architecture and Implementation Alignment
+architecture.md outlines the main components of the project at a high level. These components include the Node.js server, tutorial page, comment page, proxy/host, monitoring service, tests, and coverage. It clearly explains how data flows: from the browser to the proxy, then to the Node.js server, and back to the browser. It also describes how monitoring and configuration work. The document lists the routes and responsibilities in general terms, noting that the current comment form is visible but cannot be submitted. It mentions that HTML and TypeScript checks are in use.
+However, it states that comments go from the Node.js server to the origin repository, with storage for comments that persist. In contrast, the README and current behavior indicate that comment submission is disabled until the system can handle submissions, meaning that the expected persistence and integration are not actually available in the current setup.
+6. Testing and Verification Evidence
+What important behavior is tested?
+
+Request Routing and Response Handling: 6 tests in `requestHandler.test.ts` - 
+Event Logging Correctness: 4 tests in `util.test.ts` 
+The project also focuses on TypeScript type safety, consistent code style, and compliance with HTML standards. It requires 100% code coverage.
+Do the tests include meaningful assertions?
+
+The automated tests include meaningful assertions. A manual verification document confirms that tests exist, although it does not detail specific assertions. The strong point is the 100% coverage requirement, which encourages rigorous assertions. 
+Are normal, boundary, or failure cases represented where appropriate?
+
+The test count (6 + 4) is minimal; unclear if boundary cases (empty inputs, malformed requests, edge cases) are represented.
+No documented failure-case testing (e.g., missing environment variables, invalid routes, server errors).
+Does manual verification cover complete user workflows?
+
+The manual verification does cover the complete user workflow. It includes launching the app, navigating both pages, submitting a comment, and receiving a thank-you message. It also tests deployment health monitoring by stopping and starting services and confirms alert emails. 
+Additionally, it verifies the core feature of using Kilotest tools with and without instructions.
+Strength: The project requires 100% code coverage to proceed. We test the entire user journey manually, ensuring everything works from start to finish. This includes checking the deployment health and the main Claude integration scenario.
+
+Need for stronger testing: The automated test suite is minimal (10 total unit tests) and lacks documented coverage of failure modes, boundary cases, and error handling. For instance, there is no documented testing of invalid comment submissions, missing environment variables, or server error responses—behaviors that could increase user confidence in production robustness.
+
+7. AI-Assisted Engineering Evidence
+Does it explain how AI contributed? AI helped at every stage of the project, including design, implementation, deployment, and documentation. The developer defined the main purposes and functions, while AI reviewed and improved them. The developer used "Ask mode" for feedback instead of "Code mode" for generating new code, although some AI code suggestions were used after careful review.
+
+Does it identify suggestions that were accepted, revised, rejected, or postponed? The development process involved several key decisions. The AI initially suggested a .config.cjs format for the PM2 ecosystem configuration, but after the developer's challenge, a JSON format was accepted. A URL handling solution for the Caddyfile was identified with AI assistance, and the test mocking design also benefited from AI guidance. However, the proposal to reduce code coverage below 99% was rejected by the developer on principle, as lower coverage was considered unjustifiable.
+
+Does it explain how the AI output was manually reviewed or verified? The developer checked the code after making changes, including those based on AI suggestions. However, the description does not explain how they checked the code, such as whether they ran tests, reviewed the code, or performed manual testing. It also does not mention what they found during the checks.
+
+Does it demonstrate that the student retained engineering responsibility? The developer clearly states that they define the purposes, target audiences, and functions of the project, while AI only reviews and suggests. The developer also takes full responsibility, and an "engineering responsibility statement" confirms they acknowledge the need to delegate certain tasks but remain accountable.
+
+The verification section states "The developer has performed verifications after code changes," but provides no details on what those verifications were, how rigorous they were, or what failures were caught.
+
+8. Repository History and Project Evolution
+I also did not have access to this project's commits and recent history, just what's most updated in the zip file. 
+I cannot exactly track the progress across the different sprints with this version and without the full GitHub repository.
+There are a few branch names and milestone areas of inquiry; however, not every sprint or milestone. 
+There is no history that explains the depth of the project. 
+I would like to see more evidence of the project changing over time. 
+
+9. Engineering Strengths
+Strength 1: Quality Gates and Code Coverage
+
+The project requires 100% code coverage. All automated checks—like TypeScript, ESLint, and HTMLHint—must pass before anyone approves a pull request. It also uses a GitHub ruleset (qai-main.json) to block merges of unapproved PRs. The documentation in manual-verification.md explains that "npm run test" checks for 100% coverage. The README outlines the necessary checks that must be done. This process promotes accountability by ensuring every line of code is tested and correcting style issues before merging. The strict 100% coverage rule, which developers chose to keep even when suggested to lower it, helps reduce technical debt and defects in production.
+
+Strength 2: End-to-End Verification and Deployment Monitoring 
+
+Manual verification checks the local operations and monitors the health of the deployment. It tests for failures and sends alerts. The manual-verification.md describes tests like stopping PM2 to see if a 502 email alert is triggered, stopping Caddy to check for a timeout alert, and restarting both systems to ensure recovery alerts are received. It also explains that an LLM at Claude.ai can use Kilotest tools if it follows the tutorial, but cannot use them without it. This builds confidence from knowing "the code works" to believing "the deployed system alerts maintainers reliably." It confirms that "the tutorial effectively solves the problem," proving both the system's reliability and its value to users.
+
+10. Recommendations or Engineering Questions
+Recommendation or Question 1:  Expand Automated Test Coverage for Error and Boundary Cases 
+
+The automated test suite has only 10 unit tests (6 in requestHandler.test.ts and 4 in util.test.ts). Although the project has 100% code line coverage, the documentation does not include tests for errors, boundary cases, or bad inputs. Line coverage and behavioral coverage are not the same. A project with 100% line coverage and only happy-path tests can still fail with edge cases or unexpected input. For a production service that handles user submissions and monitors deployments, it is crucial to be robust against bad requests or missing configurations. Add at least 5–10 more unit tests that focus on: (1) missing or invalid environment variables, (2) malformed request bodies or invalid JSON, (3) validating HTTP methods (e.g., POST vs. GET on routes), (4) correct response headers, and (5) timeout or error logging behavior. Document the test scenarios and assertions in the comments of the test files.
+
+Recommendation or Question 2: Clarify Verification Procedures and Failure Detection After AI Suggestions
+
+The ai-implementation-review.md states that the developer checked the code after making changes from AI suggestions, but doesn’t explain what checks were done, what problems they aimed to catch, or what was found and fixed. Being open about the verification process helps build trust that AI suggestions were properly examined. If the checks found no issues, it could mean the AI suggestions were perfect (which is unlikely) or that the checks were insufficient. To help future maintainers understand quality risks, add a section to ai-implementation-review.md or create a verification-log entry that documents: (1) the specific checks done after each major AI suggestion (like test re-runs, manual testing, or diff review), (2) any problems or edge cases identified, and (3) how those were addressed. This will also set a standard for future AI-assisted development in the project.
+
+11. Highest-Priority Recommendation
+The highest priority is clarifying the verification evidence in ai-implementation-review.md. That strengthens credibility most because the project’s main claim is responsible AI-assisted engineering, and documenting what was actually checked will improve clarity and professional confidence more than any single code test addition.
+
+12. Final Reviewer Summary
+The project clearly defines an AI-tooling tutorial app with strict engineering checks, 100% coverage, and documented deployment and monitoring processes. The main area for improvement is providing clearer proof of how AI-assisted decisions are verified—specifically, detailing what checks were conducted after accepting or rejecting AI suggestions. Another engineer should be able to understand, run, and continue the project, but they may need more explicit verification documentation to fully trust the AI review process.
