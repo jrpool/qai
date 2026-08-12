@@ -19,7 +19,7 @@ QAI is currently in its first release. Its working functionalities are:
 - HTMLHint checks of the HTML files.
 - ESLint checks of the TypeScript files.
 - Unit tests of the request handling.
-- c8 checking of test coverage.
+- c8 checking of test coverage with 100% statement, branch, function, and line coverage, with 2 explained exceptions.
 - A public GitHub repository.
 - A ruleset protecting the default branch from merges other than by pull request and from merges when any check fails.
 - Enforcement of the ruleset with a GitHub Actions workflow.
@@ -30,7 +30,6 @@ The next functionalities to be implemented are:
 
 - Alerting of the maintainer on submission of comments.
 - Alerting of the maintainer on system errors.
-- Restoration of 100% test coverage.
 - HTML error pages.
 
 The history of strategic architectural decisions is described in files in the `docs/decisions` directory. The current state is described in the documents listed in the next section.

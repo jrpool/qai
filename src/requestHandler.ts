@@ -33,8 +33,9 @@ export const makeHandler = (commentsFilePath: string) => {
       const requestData: {error?: string; comment?: string} = await new Promise(resolve => {
         // Initialize an array of data from the response.
         const chunks: Buffer[] = [];
-        // If the request throws an error:
+        // If the request throws an error (not straightforwardly testable, so c8-exempt):
         request.on('error', error => {
+          /* c8 ignore next 4 */
           const {message} = error;
           // Populate the request data wih the error message and stop awaiting data.
           resolve({error: message});
@@ -56,7 +57,8 @@ export const makeHandler = (commentsFilePath: string) => {
           resolve({comment});
         });
       });
-      // If the request data contain an error message:
+      // If the request data contain an error message (occurs only in the above c8-exempt case):
+      /* c8 ignore next 5 */
       if (requestData.error) {
         // Serve and log it.
         handleError(response, requestData.error, 500);
@@ -80,7 +82,7 @@ export const makeHandler = (commentsFilePath: string) => {
         let comments;
         try {
           // Get the comments file from it, if any.
-          const commentsJSON = await readFile(commentsFilePath, 'utf8') ?? '[]';
+          const commentsJSON = await readFile(commentsFilePath, 'utf8');
           // Parse the comments.
           comments = JSON.parse(commentsJSON);
           // Get the comments submitted within the last 1000 seconds.
@@ -109,7 +111,7 @@ export const makeHandler = (commentsFilePath: string) => {
           // Otherwise, i.e. if the cause is anything else:
           else {
             // Serve and log this and stop responding.
-            handleError(response, 'Your comment was valid but could not be recorded for an unknown reason, so please submit a GitHub issue instead', 500);
+            handleError(response, 'Your comment was valid but could not be added to the existing comments for an unknown reason, so please submit a GitHub issue instead', 500);
             return;
           }
         }
@@ -127,7 +129,7 @@ export const makeHandler = (commentsFilePath: string) => {
           // Serve and log this.
           handleError(
             response,
-            'Your comment was valid but could not be recorded for an unknown reason, so please submit a GitHub issue instead',
+            'Your comment was valid and was added to the existing comments but could not be recorded for an unknown reason, so please submit a GitHub issue instead',
             500
           );
           return;
@@ -145,7 +147,7 @@ export const makeHandler = (commentsFilePath: string) => {
       // Otherwise, i.e. if they are invalid:
       else {
         // Serve and log this.
-        handleError(response, 'Your submission could not be processed for an unknown reason, so please submit a GitHub issue instead', 500);
+        handleError(response, 'Your comment could not be obtained from your submission for an unknown reason, so please submit a GitHub issue instead', 500);
       }
       return;
     }
@@ -159,30 +161,32 @@ export const makeHandler = (commentsFilePath: string) => {
       handleError(response, `${url} is not a valid path`, 404);
       return;
     }
+    // Otherwise, i.e. if there is a file path, get the file content type.
+    const contentType = contentTypeMap[file.split('.').pop()!] || '';
+    // If this failed:
+    if (! contentType) {
+      // Serve and log this.
+      handleError(
+        response, `Your request is valid, but this server does not have the information it needs to serve the page`, 500
+      );
+      return;
+    }
+    // Otherwise, i.e. if it succeeded, get the file content.
     try {
-      // Otherwise, i.e. if there is a file path, get the file content type.
-      const contentType = contentTypeMap[file.split('.').pop()!] || '';
-      // If this failed:
-      if (! contentType) {
-        // Serve and log this.
-        handleError(
-          response, `Your request is valid, but this server cannot serve the page`, 500
-        );
-        return;
-      }
-      // Otherwise, i.e. if it succeeded, get the file content.
       const contentBuffer = await readFile(join(__dirname, '..', 'public', file));
       // Serve it to the client.
       response.writeHead(200, {'Content-Type': contentType});
       response.end(contentBuffer);
       log('info', 'response', file, 200);
     }
+    // If this failed:
     catch {
+      // Serve and log this.
       handleError(
         response,
-        'Your request was valid, but this server cannot serve the page for an unknown reason',
+        'Your request was valid and the server tried to serve the page, but this failed for an unknown reason',
         500
       );
     }
-  };
+  }
 };
