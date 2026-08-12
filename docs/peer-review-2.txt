@@ -1,0 +1,138 @@
+1. Repository Reviewed
+Repository Assignment: Repository A 
+Student or project name: Jonathan Pool, qai
+GitHub repository URL: https://github.com/jrpool/qai
+Branch reviewed (Sprint 4 or latest committed sprint): Merge branch ‘main’ into sprint-4-quaity
+Latest commit hash reviewed: accd5c2: update documentation
+Approximate date and time reviewed: Aug 9, 5pm
+2. Initial Understanding
+After reviewing the README and repository structure, briefly explain:
+
+what the project does - it’s a tutorial blog post on how to set up claude with a custom connector (kilotest/mcp)
+who or what it is intended to support - software developers that want technical details about software quality who use claude in a browser.
+the primary workflow or capability currently implemented - routing and page rendering
+If any of this was difficult to determine, explain what information was missing or unclear.
+
+3. Repository Organization
+Evaluate whether the repository is organized clearly enough for another engineer to navigate.
+
+What is organized well? 
+yes, it’s not over-complicated so easy to comprehend the structure.
+Were important files easy to locate? 
+yes, clearly labeled.
+Were generated files, secrets, local environments, or other inappropriate artifacts excluded? 
+node_modules was included.
+What organizational improvement, if any, would make the repository easier to understand? 
+I don’t see any clear organizational improvements, the repository structure is already understandable.
+4. README and Run Instructions
+Evaluate the README as onboarding documentation.
+
+Does it explain the project's purpose?
+yes
+Does it identify prerequisites and dependencies?
+yes - but noticed pm2 isn’t in package.json 
+Does it provide clear setup and run instructions?
+mostly - nvm install 24.4.0 && nvm use 24.4.0
+Does it explain expected behavior?
+yes
+Does it describe current limitations or intentionally deferred work?
+yes
+Identify one README strength and one recommended improvement.
+- The README was concise and easy to find the important information.
+- One recommendation is to add to the Setup notes section a comment regarding removing the .example from .env.example in order for it to actually run. 
+
+5. Architecture and Implementation Alignment
+Compare docs/architecture.md with the source code and current behavior.
+
+Does the architecture document accurately describe the major components?
+yes
+Does it explain how data or requests move through the system?
+yes
+Does it reflect persistence, integrations, routes, tests, or other current responsibilities?
+persistence: No, the architecture.mdLinks to an external site. says “Persistent comment storage: origin repository” but the real persistence is actually a locally generated db/comments.json file.
+integrations: yes, but architecture.mdLinks to an external site. doesn’t mention anything about enforcing the rulesets with a github actions workflow.
+routes: yes, mentions routes but doesn’t show the actual POST route.
+tests: yes
+Did you notice any mismatch between the documentation and implementation?
+The architecture.mdLinks to an external site. mentions under Component responsibilities, “persistent comment storage: origin repository”, but the origin repository seems to just be a link for users to file an issue. The actual storage is a local file (main.tsLinks to an external site. - createServer - db - comments.json)
+Provide one specific observation supported by repository evidence.
+I noticed that the main.tsLinks to an external site. uses a db/comments.json but the architecture.mdLinks to an external site. doesn’t reflect it.
+
+6. Testing and Verification Evidence
+Review the automated tests and manual verification evidence.
+
+What important behavior is tested?
+routing - serve the right page
+comment submission - error handling
+Do the tests include meaningful assertions?
+yes
+Are normal, boundary, or failure cases represented where appropriate?
+yes
+Does manual verification cover complete user workflows?
+yes, the comment feature.
+Does the evidence increase your confidence in the project?
+yes
+Identify one quality strength and one behavior that may need stronger testing or verification.
+- RequestHandler.test.tsLinks to an external site. verifies the on-disk state, not just http responses.
+- no input sanitization for the comment in the page (raw string substitution): test to make sure code injection is prevented.
+
+7. AI-Assisted Engineering Evidence
+Review docs/ai-implementation-review.md.
+
+Does it explain how AI contributed?
+yes; design, implementation, deployment, and documentation.
+Does it identify suggestions that were accepted, revised, rejected, or postponed?
+yes
+Does it explain how AI output was manually reviewed or verified?
+yes
+Does it demonstrate that the student retained engineering responsibility?
+yes
+Identify one strength or one question related to the documented AI-assisted engineering process.
+I’m curious what your “verification after ai review” process looks like.
+
+
+8. Repository History and Project Evolution
+Review branches, commits, and recent history.
+
+Do the commits communicate meaningful engineering progress?
+yes
+Can you identify how the project evolved across sprints?
+yes
+Are branch names and milestone evidence understandable?
+yes but a little vague
+Does the history help explain the current state of the project?
+by sprint 5, the commit messages have improved and yes they help explain the current state of the project.
+Provide one observation about the repository's engineering story.
+The commit message gradually improved across sprints.
+
+9. Engineering Strengths
+Identify at least two specific strengths.
+
+Strength 1: Describe what you observed, identify the supporting evidence, and explain why it improves the project.
+The test suite isThe tests in src/requestHandler.test.ts verify actual on-disk state, in both the success and failure cases.
+Strength 2: Describe what you observed, identify the supporting evidence, and explain why it improves the project.
+Health-monitoring verification `pm2 stop qai` uses real fault injection against the live deployment, not a simulated or assumed check. Admin can keep the server up and be notified of crashes.
+10. Recommendations or Engineering Questions
+Provide at least two specific recommendations or questions.
+
+Recommendation or Question 1: Describe the issue or uncertainty, identify the evidence, explain why it matters, and suggest an appropriately scoped next step.
+During manual verification, pm2 is checking the live production URL so i can’t test locally if the pm2 stuff works or not - the live prod. one doesn’t have a working comments feature. I had to use `npx pm2 …`. Some pm2 setup instructions in the next step could help other developers perform the manual verification themselves, within their local development environment. 
+Recommendation or Question 2: Describe the issue or uncertainty, identify the evidence, explain why it matters, and suggest an appropriately scoped next step.
+Submitted comment text is inserted into the thank-you page with no HTML escaping, and nothing — automated or manual — verifies whether that's safe. People could inject malicious code into the comment input so there are cross-site scripting and html injection vulnerabilities. The next step could be to add a small HTML-escaping step before the .replace() call, and add one test asserting the response contains the escaped form (&lt;script&gt;) rather than raw markup
+11. Highest-Priority Recommendation
+If the project owner could address only one item before the final submission, which recommendation should receive the highest priority?
+Fixing the vulnerabilities (escaping dangerous keys like angle brackets)
+
+Explain why this improvement would provide the greatest benefit to clarity, reliability, maintainability, or professional readiness.
+The other fix (pm2 doc) would help clarity, but for reliability, maintainability, and professional readiness, the (xss/html injection) vulnerability fix (input sanitization) would be the greatest benefit.
+
+12. Final Reviewer Summary
+In a short paragraph, summarize:
+
+what the project does well
+the most important risk or improvement opportunity
+whether another engineer could understand, run, verify, and continue the project
+
+The project does a good job of keeping the project scope small, as it helped keep it understandable, and it made the documentation more comprehensible. The testing was also thorough.
+The most important risk I noticed was the raw text-substitution with no input sanitization for special characters.
+I think another engineer could understand, run, verify, and continue the project.
