@@ -15,12 +15,15 @@ import {tmpdir} from 'node:os';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {makeHandler, routes} from './requestHandler.ts';
+import {type AlertResult} from './alerts.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Helpers for per-test isolated servers.
-const startServer = async (commentsFilePath: string) => {
-  const server = createServer(makeHandler(commentsFilePath));
+const startServer = async (
+  commentsFilePath: string, sendAlert?: (subject: string, body: string) => Promise<AlertResult>
+) => {
+  const server = createServer(makeHandler(commentsFilePath, sendAlert));
   await new Promise<void>(resolve => {
     server.listen(0, () => resolve());
   });
@@ -360,6 +363,63 @@ test(
       const fileContent = await readFile(commentsFilePath, 'utf8');
       const comments = JSON.parse(fileContent);
       assert.equal(comments.length, 0);
+    }
+    finally {
+      await stopServer(server);
+    }
+  }
+);
+
+test(
+  'POST with valid comment and failed alert acknowledges with no delivery confirmation',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await startServer(
+      commentsFilePath,
+      () => Promise.resolve({status: 'failed', reason: 'test failure'})
+    );
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /got no delivery confirmation/);
+    }
+    finally {
+      await stopServer(server);
+    }
+  }
+);
+
+test(
+  'POST with valid comment and unconfigured alert acknowledges without notification claim',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await startServer(
+      commentsFilePath,
+      () => Promise.resolve({status: 'unconfigured'})
+    );
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /The maintainer will see your comment/);
+      assert.doesNotMatch(main?.textContent || '', /tried to notify/);
     }
     finally {
       await stopServer(server);
