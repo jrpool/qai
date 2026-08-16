@@ -7,7 +7,6 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {handleError, log, htmlSanitize} from './util.ts';
-import {type AlertResult} from './alerts.ts';
 
 // CONSTANTS
 
@@ -28,13 +27,8 @@ const contentTypeMap: Record<string, string> = {
 
 // FUNCTIONS
 
-// Returns a function that handles incoming HTTP requests.
-export const makeHandler = (
-  commentsFilePath: string,
-  sendAlert: (subject: string, body: string) => Promise<AlertResult> = () => Promise.resolve(
-    {status: 'delivered'}
-  )
-) => {
+// Returns a function that handles HTTP requests for the QAI server.
+export const makeHandler = (commentsFilePath: string) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
     // If the request is a comment submission:
     if (request.method === 'POST' && request.url === '/comment') {
@@ -126,7 +120,7 @@ export const makeHandler = (
         // If the comment is not a duplicate, add the new comment to any existing comments.
         comments.push({
           dateTime: new Date().toISOString(),
-          content: comment
+          content: requestData.comment
         });
         try {
           // Save them.
@@ -142,31 +136,12 @@ export const makeHandler = (
           );
           return;
         }
-        // Otherwise, i.e. if it succeeds, notify the maintainer.
-        const alertResult = await sendAlert('QAI comment submitted', comment);
-        const {status} = alertResult;
-        let acknowledgement: string;
-        // If the alert was delivered:
-        if (status === 'delivered') {
-          // Make the acknowledgment report this.
-          acknowledgement = 'Your comment has been received and recorded. The maintainer of QAI has been notified of it.';
-        }
-        // Otherwise, if its delivery was not confirmed before the time limit:
-        else if (status === 'failed') {
-          acknowledgement = 'Your comment has been received and recorded. QAI tried to notify its maintainer by email but got no delivery confirmation. The maintainer will see your comment when checking submitted comments.';
-          log('error', 'systemError', alertResult.reason);
-        }
-        // Otherwise, i.e. if the alert was not attempted:
-        else {
-          acknowledgement = 'Your comment has been received and recorded. The maintainer will see your comment when checking submitted comments.';
-        }
         // Get the thanks page.
         let content = await readFile(
           join(__dirname, '..', 'public', 'comment-ack.html'), 'utf8'
         );
-        // Replace its placeholders with the acknowledgment and the HTML-sanitized comment.
-        content = content.replace('__acknowledgement__', acknowledgement);
-        content = content.replace('__comment__', htmlSanitize(comment));
+        // Replace its placeholder with the HTML-sanitized comment.
+        content = content.replace('__comment__', htmlSanitize(requestData.comment!));
         // Serve the page.
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.end(content);

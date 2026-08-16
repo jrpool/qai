@@ -112,7 +112,8 @@ test(
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
       const blockquote = root.querySelector('blockquote');
       assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
-      assert.match(html, /maintainer of QAI has been notified/);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /maintainer of QAI has been notified/);
     }
     finally {
       await stopServer(server);
@@ -158,7 +159,8 @@ test(
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
       const blockquote = root.querySelector('blockquote');
       assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
-      assert.match(html, /maintainer of QAI has been notified/);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /maintainer of QAI has been notified/);
     }
     finally {
       await stopServer(server);
