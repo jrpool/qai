@@ -143,7 +143,7 @@ export const makeHandler = (
           return;
         }
         // Otherwise, i.e. if it succeeds, notify the maintainer.
-        const alertResult = await sendAlert('QAI comment submitted', comment);
+        const alertResult = await sendAlert('QAI comment submitted', htmlSanitize(comment));
         const {status} = alertResult;
         let acknowledgement: string;
         // If the alert was delivered:
