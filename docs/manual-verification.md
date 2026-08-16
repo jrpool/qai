@@ -1,6 +1,6 @@
 # QAI: verification
 
-Revision date: 2026-07-19.
+Revision date: 2026-08-16.
 
 ## Actions performed
 
@@ -10,13 +10,14 @@ The name of this file is `manual-verification.md`, but the content describes all
 
 These automated verification procedures have been implemented:
 
-- `src/requestHandler.test.ts`: Performs 6 unit tests to verify that requests to the server get the expected responses.
-- `src/util.test.ts`: Performs 4 unit tests to verify that loggable events are logged as expected.
+- `src/requestHandler.test.ts`: Performs 16 tests to verify that requests to the server get the expected responses.
+- `src/alerts.test.ts`: Performs 5 tests to verify that alert notifications are processed correctly.
+- `src/util.test.ts`: Performs 6 tests to verify that strings are correctly converted or sanitized.
 - `npm run typecheck`: Runs the TypeScript compiler with strict mode enabled to verify that the code is free of type errors.
 - `npm run lint`: Runs the ESLint linter to verify that the code conforms to the project’s coding standards specified in `eslint.config.mjs`.
 - `npm run hint`: Runs the HTMLHint linter to verify that the HTML files conform to the project’s coding standards specified in `.htmlhintrc`.
 - `npm run test`: Runs the Node.js test runner while collecting code coverage with `c8` and failing unless all coverage metrics are 100%.
-- `qai-main`: A GitHub ruleset (copy in `docs/rulesets/qai-main.json`) requiring all checks to be run before the source branch of any approved pull request is merged into the main branch. Once the repository becomes public, the requirement will be upgraded to make the success of all checks mandatory.
+- `qai-main`: A GitHub ruleset (copy in `docs/rulesets/qai-main.json`) requiring all checks to be run before the source branch of any approved pull request is merged into the main branch.
 
 ### Non-automatic verification
 
@@ -29,6 +30,8 @@ The developer has performed these verification procedures:
 - Observe that the tutorial page is rendered.
 - Navigate to `localhost:3001/comments`.
 - Observe that the comments page is rendered.
+- Submit valid and invalid comments.
+- Observe that comment submissions are correctly processed, including recording and alerting.
 
 #### Deployment
 
@@ -36,6 +39,8 @@ The developer has performed these verification procedures:
 - Observe that the tutorial page is rendered.
 - Visit `https://kilotest.com/qai/comments`.
 - Observe that the comments page is rendered.
+- Submit valid and invalid comments.
+- Observe that comment submissions are correctly processed, including recording and alerting.
 - On the deployment host in the QAI project root, execute `pm2 stop qai`.
 - Wait until the next health check.
 - Observe that the maintainer receives an email message reporting a 502 status error.
@@ -58,7 +63,7 @@ The developer has performed these verification procedures:
 - Activate the link on the tutorial page to the comments page.
 - Observe that the comments page is rendered.
 - Complete and submit a comment.
-- Observe that the thank-you page is rendered and includes a copy of your comment.
+- Observe that an acknowledgement page is rendered and includes a copy of your comment.
 
 ## Expected results
 
@@ -77,9 +82,3 @@ On 2026-07-12 an update of dependencies updated `node-html-parser` to version 9.
 ## Engineering conclusion
 
 All implemented verification procedures are correct, and the application passes them all.
-
-However, additional features are planned, including:
-
-- Alerts to the maintainer when comments are submitted.
-
-These features will merit additional verification procedures.

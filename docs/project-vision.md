@@ -18,11 +18,11 @@ The author of QAI is the maintainer of a set of tools for LLMs. Early testing re
 
 ## Initial scope
 
-QAI is being developed incrementally. The scope of its first release will be limited in these ways:
+QAI is being developed incrementally. The scope of its current release is limited in these ways:
 
-- Target platforms: QAI initially will show you how to connect LLMs to tools on **a few AI platforms**.
-- Methods: QAI initially will show you **one method** for connecting LLMs to tools.
-- Tutorial format: QAI initially will be **static**, with only text and images, but no video and no interaction with you.
-- Domain: QAI will initially select a **single technical topic** as an example.
+- Target platforms: QAI initially shows you how to connect LLMs to tools on **one AI platform**.
+- Methods: QAI initially shows you **one method** for connecting LLMs to tools.
+- Tutorial format: QAI initially is **static**, with only text and images, but no video and no interaction with you.
+- Domain: QAI initially selects a **single technical topic** as an example.
 
-A limited initial scope will permit rapid prototyping, so you can try QAI out soon and provide comments and suggestions for improvement.
+A limited initial scope permits rapid prototyping, so you can try QAI out soon and provide comments and suggestions for improvement.
