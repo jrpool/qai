@@ -387,6 +387,6 @@ The candidates described by the LLM, in descending order of estimated impact, we
    - Content of the comments page
    - Content of the acknowledgement of the submission of the comment form
    - Correct updating of the comments file upon submission of the comment form
-5. Manual verification: A user will visit the tutorial page, follow the link to the comments page, and submit a comment. The comments file will be inspected before and after the submission.
+5. Human verification: A user will visit the tutorial page, follow the link to the comments page, and submit a comment. The comments file will be inspected before and after the submission.
 6. AI assistance for the added functionalities and tests will be obtained and scrutinized.
 7. The AI advice on refactoring will be reviewed after the additional tests have been added and then implemented, if approved, for the enhanced codebase.

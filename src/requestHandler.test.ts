@@ -8,7 +8,8 @@ import {
   mkdtempDisposable,
   readFile,
   writeFile
-} from 'node:fs/promises';import {tmpdir} from 'node:os';
+} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {makeHandler, routes} from './requestHandler.ts';
@@ -107,8 +108,9 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
       assert.match(html, /maintainer of QAI has been notified/);
-      assert.ok(html.includes(submittedComment));
     }
     finally {
       await tearServerDown(server);
@@ -152,8 +154,41 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
       assert.match(html, /maintainer of QAI has been notified/);
-      assert.ok(html.includes(submittedComment));
+    }
+    finally {
+      await tearServerDown(server);
+    }
+  }
+);
+
+test(
+  'POST with comment containing HTML markup saves and renders it as text',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    await writeFile(commentsFilePath, '[]', 'utf8');
+    const {server, port} = await setServerUp(commentsFilePath);
+    try {
+      const submittedComment = 'You should use this image: <img src="x" onerror="alert(1)">';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelectorAll('img')?.length, 0);
+      assert.equal(blockquote?.querySelectorAll('script')?.length, 0);
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
+      const fileContent = await readFile(commentsFilePath, 'utf8');
+      const comments = JSON.parse(fileContent);
+      assert.equal(comments.length, 1);
+      assert.equal(comments[0].content, submittedComment);
     }
     finally {
       await tearServerDown(server);
@@ -264,6 +299,7 @@ test(
       assert.match(message, /could not be added to the existing comments/);
     }
     finally {
+      // In case the OS requires this for deletion.
       await chmod(commentsFilePath, 0o644);
       await tearServerDown(server);
     }
@@ -293,6 +329,7 @@ test(
       assert.equal(comments.length, 0);
     }
     finally {
+      // In case the OS requires this for deletion.
       await chmod(commentsFilePath, 0o644);
       await tearServerDown(server);
     }
@@ -321,7 +358,6 @@ test(
       assert.equal(comments.length, 0);
     }
     finally {
-      await chmod(commentsFilePath, 0o644);
       await tearServerDown(server);
     }
   }

@@ -4,7 +4,7 @@ import {IncomingMessage, ServerResponse} from 'node:http';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {handleError, log} from './util.ts';
+import {handleError, log, htmlSanitize} from './util.ts';
 
 // CONSTANTS
 
@@ -135,14 +135,14 @@ export const makeHandler = (commentsFilePath: string) => {
           return;
         }
         // Get the thanks page.
-        let contentBuffer = await readFile(
+        let content = await readFile(
           join(__dirname, '..', 'public', 'comment-ack.html'), 'utf8'
         );
-        // Replace its placeholder with the comment.
-        contentBuffer = contentBuffer.replace('__comment__', requestData.comment!);
+        // Replace its placeholder with the HTML-sanitized comment.
+        content = content.replace('__comment__', htmlSanitize(requestData.comment!));
         // Serve the page.
         response.writeHead(200, {'Content-Type': 'text/html'});
-        response.end(contentBuffer);
+        response.end(content);
       }
       // Otherwise, i.e. if they are invalid:
       else {
