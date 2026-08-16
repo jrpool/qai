@@ -1,3 +1,5 @@
+// requestHandler.ts
+
 // IMPORTS
 
 import {IncomingMessage, ServerResponse} from 'node:http';
@@ -25,7 +27,7 @@ const contentTypeMap: Record<string, string> = {
 
 // FUNCTIONS
 
-// Handles requests.
+// Returns a function that handles HTTP requests for the QAI server.
 export const makeHandler = (commentsFilePath: string) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
     // If the request is a comment submission:
@@ -37,7 +39,7 @@ export const makeHandler = (commentsFilePath: string) => {
         request.on('error', error => {
           /* c8 ignore next 4 */
           const {message} = error;
-          // Populate the request data wih the error message and stop awaiting data.
+          // Populate the request data with the error message and stop awaiting data.
           resolve({error: message});
           return;
         })
