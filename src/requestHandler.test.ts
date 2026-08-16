@@ -376,8 +376,7 @@ test(
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
     const {server, port} = await startServer(
-      commentsFilePath,
-      () => Promise.resolve({status: 'failed', reason: 'test failure'})
+      commentsFilePath, () => Promise.resolve({status: 'failed', reason: 'timeout'})
     );
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
