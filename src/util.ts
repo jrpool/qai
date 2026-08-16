@@ -17,11 +17,11 @@ export const stringify = (content: unknown): string => {
 
 // Sanitizes a string for rendering in HTML.
 export const htmlSanitize = (content: string): string => content
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, '&apos;');
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&apos;');
 
 // Outputs a log to the console.
 export const log = (
