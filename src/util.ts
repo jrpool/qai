@@ -15,6 +15,14 @@ export const stringify = (content: unknown): string => {
   return String(content) || 'Unknown content';
 };
 
+// Sanitizes a string for rendering in HTML.
+export const htmlSanitize = (content: string): string => content
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&apos;');
+
 // Outputs a log to the console.
 export const log = (
   level: 'error' | 'warning' | 'info',

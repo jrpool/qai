@@ -1,3 +1,5 @@
+// requestHandler.test.ts
+
 import {after, before, test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer, type Server} from 'node:http';
@@ -8,16 +10,20 @@ import {
   mkdtempDisposable,
   readFile,
   writeFile
-} from 'node:fs/promises';import {tmpdir} from 'node:os';
+} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {makeHandler, routes} from './requestHandler.ts';
+import {type AlertResult} from './alerts.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Helpers for per-test isolated servers.
-const setServerUp = async (commentsFilePath: string) => {
-  const server = createServer(makeHandler(commentsFilePath));
+const startServer = async (
+  commentsFilePath: string, sendAlert?: (subject: string, body: string) => Promise<AlertResult>
+) => {
+  const server = createServer(makeHandler(commentsFilePath, sendAlert));
   await new Promise<void>(resolve => {
     server.listen(0, () => resolve());
   });
@@ -25,7 +31,7 @@ const setServerUp = async (commentsFilePath: string) => {
   return {server, port};
 };
 
-const tearServerDown = (server: Server) => new Promise<void>(resolve => {
+const stopServer = (server: Server) => new Promise<void>(resolve => {
   server.close(() => resolve());
 });
 
@@ -94,7 +100,7 @@ test(
   'POST with valid comment and no comments file creates file with comment and acknowledges',
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
-    const {server, port} = await setServerUp(join(dir.path, 'comments.json'));
+    const {server, port} = await startServer(join(dir.path, 'comments.json'));
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -107,11 +113,13 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
-      assert.match(html, /maintainer of QAI has been notified/);
-      assert.ok(html.includes(submittedComment));
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /maintainer of QAI has been notified/);
     }
     finally {
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -132,7 +140,7 @@ test(
       }
     ];
     await writeFile(commentsFilePath, JSON.stringify(existingComments), 'utf8');
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -152,11 +160,45 @@ test(
       const root = parse(html);
       const title = root.querySelector('title');
       assert.equal(title?.textContent, 'Thanks for your comment | QAI');
-      assert.match(html, /maintainer of QAI has been notified/);
-      assert.ok(html.includes(submittedComment));
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /maintainer of QAI has been notified/);
     }
     finally {
-      await tearServerDown(server);
+      await stopServer(server);
+    }
+  }
+);
+
+test(
+  'POST with comment containing HTML markup saves and renders it as text',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    await writeFile(commentsFilePath, '[]', 'utf8');
+    const {server, port} = await startServer(commentsFilePath);
+    try {
+      const submittedComment = 'You should use this image: <img src="x" onerror="alert(1)">';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const blockquote = root.querySelector('blockquote');
+      assert.equal(blockquote?.querySelectorAll('img')?.length, 0);
+      assert.equal(blockquote?.querySelectorAll('script')?.length, 0);
+      assert.equal(blockquote?.querySelector('p')?.textContent, submittedComment);
+      const fileContent = await readFile(commentsFilePath, 'utf8');
+      const comments = JSON.parse(fileContent);
+      assert.equal(comments.length, 1);
+      assert.equal(comments[0].content, submittedComment);
+    }
+    finally {
+      await stopServer(server);
     }
   }
 );
@@ -166,7 +208,7 @@ test(
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'Too short.';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -183,7 +225,7 @@ test(
       assert.equal(fileExists, false);
     }
     finally {
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -193,7 +235,7 @@ test(
   async () => {
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'x'.repeat(1001);
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -210,7 +252,7 @@ test(
       assert.equal(fileExists, false);
     }
     finally {
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -224,7 +266,7 @@ test(
     const duplicateContent = 'This is a comment that will be submitted twice.';
     const existingComment = {dateTime: recentTime, content: duplicateContent};
     await writeFile(commentsFilePath, JSON.stringify([existingComment]), 'utf8');
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const response = await fetch(`http://localhost:${port}/comment`, {
         method: 'POST',
@@ -239,7 +281,7 @@ test(
       assert.equal(comments.length, 1);
     }
     finally {
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -251,7 +293,7 @@ test(
     const commentsFilePath = join(dir.path, 'comments.json');
     await writeFile(commentsFilePath, '[]', 'utf8');
     await chmod(commentsFilePath, 0o000);
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -264,8 +306,9 @@ test(
       assert.match(message, /could not be added to the existing comments/);
     }
     finally {
+      // In case the OS requires this for deletion.
       await chmod(commentsFilePath, 0o644);
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -277,7 +320,7 @@ test(
     const commentsFilePath = join(dir.path, 'comments.json');
     await writeFile(commentsFilePath, '[]', 'utf8');
     await chmod(commentsFilePath, 0o444);
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -293,8 +336,9 @@ test(
       assert.equal(comments.length, 0);
     }
     finally {
+      // In case the OS requires this for deletion.
       await chmod(commentsFilePath, 0o644);
-      await tearServerDown(server);
+      await stopServer(server);
     }
   }
 );
@@ -305,7 +349,7 @@ test(
     await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
     const commentsFilePath = join(dir.path, 'comments.json');
     await writeFile(commentsFilePath, '[]', 'utf8');
-    const {server, port} = await setServerUp(commentsFilePath);
+    const {server, port} = await startServer(commentsFilePath);
     try {
       const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
       const response = await fetch(`http://localhost:${port}/comment`, {
@@ -321,8 +365,63 @@ test(
       assert.equal(comments.length, 0);
     }
     finally {
-      await chmod(commentsFilePath, 0o644);
-      await tearServerDown(server);
+      await stopServer(server);
+    }
+  }
+);
+
+test(
+  'POST with valid comment and failed alert acknowledges with no delivery confirmation',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await startServer(
+      commentsFilePath, () => Promise.resolve({status: 'failed', reason: 'timeout'})
+    );
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /got no delivery confirmation/);
+    }
+    finally {
+      await stopServer(server);
+    }
+  }
+);
+
+test(
+  'POST with valid comment and unconfigured alert acknowledges without notification claim',
+  async () => {
+    await using dir = await mkdtempDisposable(join(tmpdir(), 'qai-test-'));
+    const commentsFilePath = join(dir.path, 'comments.json');
+    const {server, port} = await startServer(
+      commentsFilePath,
+      () => Promise.resolve({status: 'unconfigured'})
+    );
+    try {
+      const submittedComment = 'Can you create a similar tutorial for the <ABC&XYZ> AI platform?';
+      const response = await fetch(`http://localhost:${port}/comment`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `comment=${encodeURIComponent(submittedComment)}`
+      });
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const root = parse(html);
+      const main = root.querySelector('main');
+      assert.match(main?.textContent || '', /The maintainer will see your comment/);
+      assert.doesNotMatch(main?.textContent || '', /tried to notify/);
+    }
+    finally {
+      await stopServer(server);
     }
   }
 );
