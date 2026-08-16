@@ -32,3 +32,15 @@ A sanitizing function was added to the utility module and applied in two context
 An already existing account on the Resend platform was leveraged for the completion of the comment-processing feature. After this revision, any comment is not only saved in the comments file but also relayed by email to the application manager.
 
 ## Verification
+
+Additional tests were created for verification of the completed and remediated features. At the end of Sprint 4 there were 15 tests. At the end of Sprint 5 there were 27 tests. Test coverage was maintained at 100%, with two `c8` exclusions for practically untestable network errors.
+
+Human verification supplemented the automated checks. A human user performed all the actions permitted by the application and verified the appropriate responses. The manager inspected the comments file and the email inflow, verifying that comments were correctly processed.
+
+## AI assistance
+
+Large language models were used as strategic advisors, drafters, and code reviewers. In all conversations on the AI platform, Ask mode was invoked, so no LLM directly modified any application code. The human developer retained responsibility for understanding and revising LLM drafts.
+
+AI assistance was particularly valuable for creating awareness of tools unfamiliar to the developer, such as asynchronous disposability in Node.js.
+
+Sprint 5 continued to provide opportunities to contemplate the problem of adopting a personal policy on AI discretion. Taking responsibility for all decisions does not mean granting no discretion to an AI (or human) assistant. It means being personally accountable for the consequences of such grants of discretion. Sprint 5 added experience that helped make more robust decisions on how much discretion, over what, and when, to grant.
